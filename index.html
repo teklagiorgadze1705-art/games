@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="ka" class="js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FBF6EC">
+  <meta name="description" content="თამაშობანა — ონლაინ სამაგიდო თამაშები მეგობრებისთვის. ერთი კოდი, საერთო მაგიდა.">
+  <title>თამაშობანა — მაგიდა ერთია, მეგობრები ბევრი</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <noscript><style>.js .reveal{opacity:1!important;transform:none!important}</style></noscript>
+  <style>
+    /* ============================================
+       1. ფერები და ზომები — აქედან იცვლება პალიტრა
+       ============================================ */
+    :root {
+      --bg: #FBF6EC;
+      --bg-2: #F5F0E7;
+      --peach: #FCE9D2;
+      --accent: #E8A45B;
+      --accent-hover: #D98E3F;
+      --ink: #172B36;
+      --muted: #3E5563;
+      --soft: #4A6270;
+      --green: #416B5A;
+      --green-dark: #335646;
+      --coral: #E86F5B;
+      --coral-deep: #8E3324;
+      --butter: #F6D77A;
+      --gold: #C8962E;
+      --white: #FFFFFF;
+      --line: rgba(23, 43, 54, 0.1);
+      --shadow-sm: 0 8px 24px rgba(120, 72, 24, 0.06);
+      --shadow-md: 0 18px 44px rgba(120, 72, 24, 0.1);
+      --shadow-lg: 0 28px 70px rgba(90, 50, 16, 0.16);
+      --radius-card: 22px;
+      --radius-btn: 999px;
+      --radius-field: 14px;
+      --max: 1240px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font: "Noto Sans Georgian", "Segoe UI", Sylfaen, sans-serif;
+    }
+
+    /* ============================================
+       2. საბაზისო
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+    }
+    img, svg { display: block; max-width: 100%; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    h1, h2, h3, p, ul, figure { margin: 0; }
+    ul { padding: 0; list-style: none; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--butter); color: var(--ink); }
+
+    :focus { outline: none; }
+    :focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+    .site-footer :focus-visible { outline-color: var(--butter); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .skip {
+      position: absolute;
+      left: 12px;
+      top: -48px;
+      z-index: 200;
+      background: var(--white);
+      color: var(--ink);
+      padding: 8px 14px;
+      border-radius: var(--radius-btn);
+    }
+    .skip:focus { top: 12px; }
+
+    .container { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .muted { color: var(--muted); }
+    [hidden] { display: none !important; }
+    body.lock { overflow: hidden; }
+
+    /* ============================================
+       3. ღილაკები და ველები
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: var(--radius-btn);
+      padding: 12px 22px;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+      transition: background 240ms var(--ease), color 240ms var(--ease), box-shadow 240ms var(--ease), transform 240ms var(--ease);
+    }
+    .btn svg { width: 18px; height: 18px; }
+    .btn-primary { background: var(--accent); color: var(--ink); box-shadow: 0 8px 18px rgba(232, 164, 91, 0.28); }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px rgba(23, 43, 54, 0.18); }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.72); }
+    .btn-green { background: var(--green); color: var(--white); box-shadow: 0 8px 18px rgba(65, 107, 90, 0.22); }
+    .btn-green:hover { background: var(--green-dark); }
+    .btn-ghost { background: var(--bg-2); color: var(--ink); }
+    .btn-ghost:hover { background: var(--peach); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-block { width: 100%; }
+
+    .icon-btn {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: var(--radius-btn);
+      background: transparent;
+      color: var(--ink);
+      transition: background 220ms var(--ease);
+    }
+    .icon-btn svg { width: 22px; height: 22px; }
+    .icon-btn:hover { background: rgba(23, 43, 54, 0.06); }
+    .count-badge {
+      position: absolute;
+      top: 2px;
+      right: 0;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: var(--radius-btn);
+      background: var(--accent);
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      line-height: 1;
+    }
+    .count-badge[data-count="0"] { display: none; }
+    .count-badge.is-pop { animation: pop 320ms var(--ease); }
+
+    .field { display: flex; flex-direction: column; gap: 6px; min-width: 148px; flex: 1 1 148px; }
+    .field > span, .sort-field > span { font-size: 0.82rem; font-weight: 700; color: var(--soft); }
+    input, select, textarea {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      background: var(--white);
+      border-radius: var(--radius-field);
+      padding: 12px 14px;
+      transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
+    }
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23172B36' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: none;
+      border-color: var(--accent-hover);
+      box-shadow: 0 0 0 4px rgba(232, 164, 91, 0.35);
+    }
+    .price-row { display: flex; gap: 8px; }
+    .price-row input { min-width: 0; }
+
+    /* ============================================
+       4. საინფორმაციო ზოლი
+       ============================================ */
+    .info-bar {
+      background: var(--peach);
+      color: var(--ink);
+    }
+    .info-bar-inner {
+      width: min(var(--max), calc(100% - 40px));
+      margin-inline: auto;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 8px 0;
+    }
+    .info-bar p { margin: 0; }
+
+    /* ============================================
+       5. ჰედერი
+       ============================================ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      transition: transform 320ms var(--ease), background 280ms var(--ease), box-shadow 280ms var(--ease);
+    }
+    .site-header.is-scrolled {
+      background: rgba(251, 246, 236, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(120, 72, 24, 0.08);
+    }
+    .site-header.is-hidden { transform: translateY(-110%); pointer-events: none; }
+    .header-inner { position: relative; width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .header-bar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+      min-height: 76px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; min-width: 0; font-weight: 800; font-size: 1.2rem; }
+    .logo-mark { width: 40px; height: 40px; flex: none; }
+    .nav-desktop { display: flex; justify-content: center; align-items: center; gap: 4px; }
+    .nav-link, .cat-btn {
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 8px 10px;
+      border-radius: var(--radius-btn);
+      transition: background 220ms var(--ease);
+      white-space: nowrap;
+    }
+    .nav-link:hover, .cat-btn:hover { background: rgba(23, 43, 54, 0.05); }
+    .nav-link.is-active, .cat-btn.is-active { background: rgba(232, 164, 91, 0.2); }
+    .cat-btn { display: inline-flex; align-items: center; gap: 6px; }
+    .cat-btn svg { width: 16px; height: 16px; transition: transform 240ms var(--ease); }
+    .site-header.mega-open .cat-btn svg { transform: rotate(180deg); }
+    .header-actions { display: flex; align-items: center; gap: 4px; }
+    .header-actions .btn { padding: 10px 14px; }
+    .menu-toggle { display: none; }
+    .search-form {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      overflow: hidden;
+      transition: grid-template-rows 280ms var(--ease), opacity 220ms var(--ease), padding 280ms var(--ease);
+    }
+    .header-inner.is-search-open .search-form { grid-template-rows: 1fr; opacity: 1; padding-bottom: 14px; }
+    .search-form-inner { min-height: 0; }
+    .search-field { position: relative; display: flex; align-items: center; }
+    .search-field svg { position: absolute; left: 14px; width: 18px; height: 18px; color: var(--soft); }
+    .search-field input { padding-left: 42px; padding-right: 44px; background: var(--white); }
+    .search-clear { position: absolute; right: 6px; }
+
+    .mega {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      padding-top: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 240ms var(--ease), transform 240ms var(--ease), visibility 240ms;
+      z-index: 60;
+    }
+    .site-header.mega-open .mega { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+    .mega-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-lg);
+      padding: 18px;
+      max-height: min(70vh, 640px);
+      overflow: auto;
+    }
+    .mega-label { font-size: 0.82rem; font-weight: 700; color: var(--soft); padding: 4px 12px 10px; }
+    .mega-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+    .mega-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      border-radius: 16px;
+      padding: 12px;
+      color: inherit;
+      transition: background 200ms var(--ease);
+    }
+    .mega-item:hover { background: var(--bg); }
+    .mega-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--peach);
+      display: grid;
+      place-items: center;
+      flex: none;
+    }
+    .mega-icon svg { width: 22px; height: 22px; }
+    .mega-item strong { display: block; font-size: 0.98rem; line-height: 1.3; }
+    .mega-item small { display: block; margin-top: 3px; color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
+
+    /* ============================================
+       6. Hero
+       ============================================ */
+    .hero { position: relative; padding: 28px 0 72px; overflow: hidden; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -60px;
+      top: -80px;
+      background: radial-gradient(circle, rgba(252, 233, 210, 0.95), rgba(252, 233, 210, 0) 68%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 36px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border-radius: var(--radius-btn);
+      padding: 6px 12px 6px 8px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .hero h1 {
+      margin: 16px 0 14px;
+      font-size: clamp(2.4rem, 5vw, 4.35rem);
+      line-height: 1.12;
+      font-weight: 800;
+    }
+    .lede { font-size: 1.12rem; line-height: 1.65; color: var(--muted); max-width: 38rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 32px; }
+    .hero-stats strong { display: block; font-size: 1.55rem; font-weight: 800; line-height: 1.2; }
+    .hero-stats span { color: var(--muted); font-size: 0.92rem; }
+    .hero-art svg { width: 100%; height: auto; overflow: visible; }
+    .hero-art { position: relative; }
+    .float-1, .float-2, .float-3 { transform-box: fill-box; transform-origin: center; }
+    .float-1 { animation: floaty 7.5s ease-in-out infinite; }
+    .float-2 { animation: floaty 8.8s ease-in-out infinite; animation-delay: -2s; }
+    .float-3 { animation: floaty 6.8s ease-in-out infinite; animation-delay: -1.2s; }
+    .js .hero-copy > * { animation: rise 640ms var(--ease) both; }
+    .js .hero-copy > *:nth-child(2) { animation-delay: 70ms; }
+    .js .hero-copy > *:nth-child(3) { animation-delay: 140ms; }
+    .js .hero-copy > *:nth-child(4) { animation-delay: 210ms; }
+    .js .hero-copy > *:nth-child(5) { animation-delay: 280ms; }
+
+    /* ============================================
+       7. სექციები
+       ============================================ */
+    .section { padding: 84px 0; }
+    .band { background: var(--bg-2); padding: 84px 0; }
+    .section-head { max-width: 40rem; margin-bottom: 28px; }
+    .section-head h2, .band h2, .package-copy h2 {
+      font-size: clamp(1.8rem, 3vw, 2.45rem);
+      line-height: 1.2;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .section-head p, .band .section-head p { color: var(--muted); }
+    [id] { scroll-margin-top: 96px; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .step {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 26px 24px 28px;
+      box-shadow: var(--shadow-sm);
+    }
+    .step-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: var(--peach);
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+    }
+    .step-icon svg { width: 26px; height: 26px; }
+    .step h3 { font-size: 1.25rem; margin-bottom: 8px; }
+    .step p { color: var(--muted); }
+    .note-strip {
+      margin-top: 18px;
+      background: var(--white);
+      border-radius: 18px;
+      padding: 16px 18px;
+      color: var(--muted);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ============================================
+       8. კატალოგი
+       ============================================ */
+    .filters {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .filters > .filters-mobile-head { display: none; }
+    .segment {
+      display: inline-flex;
+      background: var(--bg-2);
+      padding: 4px;
+      border-radius: var(--radius-btn);
+      gap: 2px;
+      flex: 0 0 auto;
+      align-self: flex-end;
+    }
+    .segment button {
+      border: 0;
+      background: transparent;
+      border-radius: var(--radius-btn);
+      padding: 8px 14px;
+      font-weight: 700;
+      color: var(--ink);
+      transition: background 200ms var(--ease), box-shadow 200ms var(--ease);
+    }
+    .segment button[aria-pressed="true"] { background: var(--white); box-shadow: var(--shadow-sm); }
+    .catalog-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
+    .result-count { font-weight: 700; }
+    .sort-field { display: flex; flex-direction: column; gap: 6px; min-width: 220px; }
+    .only-mobile { display: none; }
+    .filter-count {
+      min-width: 18px;
+      height: 18px;
+      border-radius: var(--radius-btn);
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 11px;
+      display: inline-grid;
+      place-items: center;
+      margin-left: 6px;
+    }
+    .filter-count[data-count="0"] { display: none; }
+
+    .game-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+    .js .game-grid.animate .game-card { animation: rise 420ms var(--ease) both; }
+    .js .game-grid.animate .game-card:nth-child(2) { animation-delay: 40ms; }
+    .js .game-grid.animate .game-card:nth-child(3) { animation-delay: 80ms; }
+    .js .game-grid.animate .game-card:nth-child(4) { animation-delay: 110ms; }
+    .js .game-grid.animate .game-card:nth-child(5) { animation-delay: 140ms; }
+    .js .game-grid.animate .game-card:nth-child(n+6) { animation-delay: 170ms; }
+
+    .game-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 16px 16px 18px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+      transition: transform 280ms var(--ease), box-shadow 280ms var(--ease);
+    }
+    .game-card:hover, .game-card:focus-within { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+    .game-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+    .card-title {
+      border: 0;
+      background: none;
+      padding: 0;
+      font: inherit;
+      font-weight: 800;
+      font-size: 1.15rem;
+      text-align: left;
+      line-height: 1.3;
+    }
+    .card-title:hover { color: var(--green-dark); }
+    .cats { margin-top: 4px; color: var(--muted); font-size: 0.92rem; }
+    .pill {
+      flex: none;
+      border-radius: var(--radius-btn);
+      padding: 6px 10px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      line-height: 1.2;
+    }
+    .pill-free { background: var(--green); color: var(--white); }
+    .pill-price { background: var(--ink); color: var(--bg); }
+    .pill-new { background: #FDE8E4; color: var(--coral-deep); }
+    .pill-hot { background: var(--butter); color: var(--ink); }
+    .art-btn {
+      position: relative;
+      display: block;
+      width: 100%;
+      border: 0;
+      padding: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      background: transparent;
+      cursor: pointer;
+    }
+    .art {
+      height: 168px;
+      background: linear-gradient(145deg, var(--a), var(--b));
+    }
+    .art svg { width: 100%; height: 100%; }
+    .flag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .art { display: block; }
+    .art svg { width: 100%; height: 100%; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-2);
+      border-radius: var(--radius-btn);
+      padding: 6px 10px;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+    .meta-pill svg { width: 15px; height: 15px; }
+    .rating-row { display: flex; align-items: center; gap: 8px; min-height: 22px; }
+    .stars { display: inline-flex; gap: 2px; }
+    .star { width: 16px; height: 16px; }
+    .rating-num { font-weight: 800; font-size: 0.92rem; }
+    .rating-count { color: var(--soft); font-size: 0.85rem; }
+    .card-actions { display: flex; gap: 8px; margin-top: auto; }
+    .card-actions .btn { flex: 1; }
+    .fav-btn { color: var(--ink); flex: none; }
+    .fav-btn svg path { fill: transparent; transition: fill 200ms var(--ease); }
+    .fav-btn.is-on { color: var(--coral-deep); }
+    .fav-btn.is-on svg path { fill: currentColor; }
+    .fav-btn.is-pop svg { animation: heart-pop 340ms var(--ease); }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 48px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .empty svg { width: 92px; height: 72px; margin: 0 auto 14px; }
+    .empty h3 { font-size: 1.35rem; margin-bottom: 8px; }
+    .empty p { color: var(--muted); margin-bottom: 16px; }
+
+    /* ============================================
+       9. პაკეტი
+       ============================================ */
+    .package-card {
+      display: grid;
+      grid-template-columns: 1.45fr 0.8fr;
+      gap: 28px;
+      align-items: center;
+      background:
+        radial-gradient(480px 220px at 100% 0%, rgba(246, 215, 122, 0.55), transparent 55%),
+        linear-gradient(160deg, var(--white), var(--peach));
+      border-radius: 28px;
+      padding: 36px;
+      box-shadow: var(--shadow-md);
+    }
+    .benefits { display: grid; gap: 12px; margin-top: 18px; }
+    .benefits li { display: flex; gap: 10px; align-items: flex-start; }
+    .benefits svg { width: 22px; height: 22px; flex: none; margin-top: 2px; color: var(--green); }
+    .package-offer {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+    .package-price { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .package-price span { font-size: 1.05rem; font-weight: 700; }
+    .package-offer .btn { margin-top: 16px; }
+    .fine { margin-top: 10px; color: var(--muted); font-size: 0.88rem; }
+
+    /* ============================================
+       10. ფუტერი
+       ============================================ */
+    .site-footer { background: var(--ink); color: #F4EFE6; padding: 64px 0 24px; }
+    .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
+    .site-footer .logo { color: #F4EFE6; }
+    .site-footer .logo-mark .inner { fill: #FBF6EC; }
+    .site-footer .logo-mark .core { fill: #E8A45B; }
+    .footer-lead { margin: 14px 0 18px; color: #D5DDD6; max-width: 36ch; }
+    .footer-grid h2 { font-size: 1rem; margin-bottom: 12px; color: #F4EFE6; }
+    .footer-links { display: grid; gap: 8px; }
+    .footer-links a, .footer-links button {
+      color: #E4EBE4;
+      background: none;
+      border: 0;
+      padding: 0;
+      text-align: left;
+      font: inherit;
+    }
+    .footer-links a:hover, .footer-links button:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .socials { display: flex; gap: 8px; }
+    .socials .icon-btn { color: #F4EFE6; }
+    .socials .icon-btn:hover { background: rgba(255, 255, 255, 0.08); }
+    .footer-note { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(244, 239, 230, 0.14); color: #C9D4CE; font-size: 0.92rem; }
+    .about-block, .legal-block { margin-top: 22px; max-width: 70ch; }
+    .about-block h2, .legal-block h2 { font-size: 1.15rem; margin-bottom: 8px; }
+    .about-block p, .legal-block p { color: #D5DDD6; }
+
+    /* ============================================
+       11. პანელები, მოდალი, toast
+       ============================================ */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(23, 43, 54, 0.32);
+      z-index: 70;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: min(420px, 92vw);
+      background: var(--white);
+      z-index: 80;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      transition: transform 340ms var(--ease);
+    }
+    .drawer-right { right: 0; transform: translateX(105%); }
+    .drawer-left { left: 0; transform: translateX(-105%); }
+    .drawer.is-open { transform: none; }
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 18px 8px;
+    }
+    .filters-mobile-head {
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 4px 0 8px;
+    }
+    .drawer-head h2, .filters-mobile-head h2 { font-size: 1.3rem; }
+    .drawer-body { padding: 8px 18px 18px; overflow: auto; flex: 1; }
+    .drawer-foot { padding: 14px 18px 18px; border-top: 1px solid var(--line); }
+    .drawer-foot .total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.15rem; margin-bottom: 8px; }
+    .drawer-note { color: var(--muted); font-size: 0.88rem; margin-bottom: 12px; }
+    .line-item, .fav-item {
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .swatch { width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(145deg, var(--a), var(--b)); }
+    .line-item strong, .fav-item strong { display: block; }
+    .line-item span, .fav-item span { color: var(--muted); font-size: 0.88rem; }
+    .line-side { display: flex; align-items: center; gap: 4px; font-weight: 800; }
+    .menu-list { display: grid; gap: 4px; }
+    .menu-list button, .acc-btn {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-weight: 700;
+    }
+    .menu-list button:hover, .acc-btn:hover, .menu-list button.is-active { background: var(--bg); }
+    .acc-btn { display: flex; justify-content: space-between; align-items: center; }
+    .acc-btn svg { width: 18px; height: 18px; transition: transform 240ms var(--ease); }
+    .acc-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 280ms var(--ease); }
+    .acc-panel.is-open { grid-template-rows: 1fr; }
+    .acc-panel > div { overflow: hidden; }
+    .acc-link {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 8px 12px 8px 20px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .acc-link:hover { background: var(--bg); color: var(--ink); }
+    .drawer-auth { display: grid; gap: 8px; padding: 8px 18px 20px; }
+
+    .popover {
+      position: fixed;
+      z-index: 85;
+      width: min(300px, calc(100vw - 24px));
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: var(--shadow-lg);
+      padding: 8px;
+    }
+    .popover button {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border: 0;
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: 700;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+    .popover button:hover { background: var(--peach); }
+    .popover p { margin: 4px 8px 6px; color: var(--muted); font-size: 0.82rem; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(23, 43, 54, 0.38);
+    }
+    #codeDialog { z-index: 100; }
+    .modal-card {
+      width: min(860px, 100%);
+      max-height: min(92vh, 900px);
+      overflow: auto;
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .code-card { width: min(440px, 100%); padding: 28px 24px 24px; text-align: center; }
+    .modal-close { position: absolute; top: 12px; right: 12px; background: var(--white); z-index: 2; }
+    .modal-art { height: 220px; border-radius: 24px 24px 0 0; }
+    .modal-body { padding: 22px 22px 28px; }
+    .modal-title-row { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; padding-right: 36px; }
+    .modal-title-row h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+    .modal-body .desc { margin: 14px 0; color: var(--muted); }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 14px; }
+    .tag { background: var(--bg-2); border-radius: var(--radius-btn); padding: 6px 10px; font-size: 0.85rem; font-weight: 700; }
+    .modal-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .choice-stack { display: grid; gap: 8px; flex: 1; }
+    .reviews { margin-top: 8px; }
+    .reviews h3 { font-size: 1.2rem; margin-bottom: 12px; }
+    .review { padding: 12px 0; border-top: 1px solid var(--line); }
+    .review-top { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+    .review p { margin-top: 6px; }
+    .review-form { display: grid; gap: 10px; margin-top: 16px; }
+    .rate-input { display: flex; gap: 4px; }
+    .rate-input button { border: 0; background: transparent; padding: 2px; border-radius: 8px; }
+    .rate-input svg { width: 28px; height: 28px; }
+    .rate-input path { fill: #E7DCCB; }
+    .rate-input button.is-on path { fill: var(--gold); }
+    .form-error { color: var(--coral-deep); font-weight: 700; font-size: 0.92rem; }
+    .code-chip {
+      margin: 16px auto;
+      display: inline-block;
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+    .code-actions { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--ink);
+      color: var(--bg);
+      padding: 12px 18px;
+      border-radius: var(--radius-btn);
+      z-index: 120;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 240ms var(--ease), transform 240ms var(--ease);
+      max-width: min(520px, calc(100vw - 32px));
+      text-align: center;
+      font-weight: 600;
+    }
+    .toast.is-on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .panel-empty { text-align: center; padding: 28px 8px; color: var(--muted); }
+    .panel-empty svg { width: 88px; height: 72px; margin: 0 auto 12px; }
+    .panel-empty h3 { color: var(--ink); margin-bottom: 6px; }
+
+    /* ============================================
+       12. ანიმაციები
+       ============================================ */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.28); }
+      100% { transform: scale(1); }
+    }
+    @keyframes heart-pop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 520ms var(--ease), transform 520ms var(--ease); }
+    .js .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ============================================
+       13. ადაპტაცია
+       ============================================ */
+    @media (max-width: 1180px) {
+      .nav-desktop, .auth-desktop, .mega { display: none !important; }
+      .menu-toggle { display: grid; }
+      .header-bar { display: flex; }
+      .header-actions { margin-left: auto; }
+    }
+    @media (max-width: 900px) {
+      .hero-grid, .package-card, .footer-grid { grid-template-columns: 1fr; }
+      .hero { padding-bottom: 48px; }
+      .hero-art { max-width: 640px; margin-inline: auto; }
+    }
+    @media (max-width: 860px) {
+      .only-mobile { display: inline-flex; }
+      .filters {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(420px, 92vw);
+        margin: 0;
+        border-radius: 0;
+        z-index: 80;
+        overflow: auto;
+        align-content: flex-start;
+        transform: translateX(105%);
+        transition: transform 340ms var(--ease);
+        box-shadow: var(--shadow-lg);
+      }
+      .filters.is-open { transform: none; }
+      .filters > .filters-mobile-head { display: flex; position: sticky; top: 0; background: var(--white); z-index: 1; padding: 8px 0 12px; }
+      .filters .field, .segment { flex-basis: 100%; }
+      .filters-clear { width: 100%; }
+    }
+    @media (max-width: 1020px) {
+      .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 800px) {
+      .steps { grid-template-columns: 1fr; }
+      .section, .band { padding: 60px 0; }
+    }
+    @media (max-width: 680px) {
+      .game-grid { grid-template-columns: 1fr; }
+      .container, .header-inner, .info-bar-inner { width: min(var(--max), calc(100% - 32px)); }
+    }
+    @media (max-width: 560px) {
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; white-space: normal; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .hero-stats li:last-child { grid-column: 1 / -1; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .logo-name { font-size: 1.02rem; }
+      .modal { padding: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">მთავარ შინაარსზე გადასვლა</a>
+
+  <div class="info-bar" id="infoBar">
+    <div class="info-bar-inner">
+      <p id="infoText">ერთჯერადი წვდომა 5 ₾-დან · კოდი მოქმედებს 24 საათს · მეგობრები უფასოდ ერთვებიან</p>
+      <button type="button" class="icon-btn" data-action="close-info" aria-label="შეტყობინების დახურვა">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="site-header" id="header">
+    <div class="header-inner" id="headerInner">
+      <div class="header-bar">
+        <a class="logo" href="#top" data-action="home">
+          <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+            <path class="outer" d="M20 3 33 11v14L20 33 7 25V11Z" fill="#E8A45B"/>
+            <path class="inner" d="M20 9.2 28.2 14v8.2L20 26.8 11.8 22.2V14Z" fill="#172B36"/>
+            <path class="core" d="M20 14.5 23.6 16.6v4.2L20 22.9 16.4 20.8v-4.2Z" fill="#F6D77A"/>
+          </svg>
+          <span class="logo-name" data-site-name>თამაშობანა</span>
+        </a>
+        <nav class="nav-desktop" aria-label="მთავარი ნავიგაცია">
+          <a class="nav-link is-active" href="#top" data-nav="home" data-action="home">მთავარი</a>
+          <a class="nav-link" href="#catalog" data-nav="all" data-action="jump" data-jump="all">ყველა თამაში</a>
+          <a class="nav-link" href="#catalog" data-nav="free" data-action="jump" data-jump="free">უფასო თამაშები</a>
+          <a class="nav-link" href="#catalog" data-nav="paid" data-action="jump" data-jump="paid">ფასიანი თამაშები</a>
+          <button type="button" class="cat-btn" id="catBtn" data-action="toggle-mega" aria-expanded="false" aria-controls="mega">
+            კატეგორიები
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </nav>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" id="searchToggle" data-action="toggle-search" aria-expanded="false" aria-controls="searchForm">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+            <span class="sr-only">ძიება</span>
+          </button>
+          <button type="button" class="icon-btn" data-action="open-panel" data-panel="fav" aria-label="რჩეულები">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.2S5.2 16 5.2 11a3.8 3.8 0 0 1 6.8-2.3A3.8 3.8 0 0 1 18.8 11c0 5-6.8 9.2-6.8 9.2z"/></svg>
+            <span class="count-badge" id="favBadge" data-count="0">0</span>
+          </button>
+          <button type="button" class="btn btn-secondary auth-desktop" data-action="soon">შესვლა</button>
+          <button type="button" class="btn btn-primary auth-desktop" data-action="soon">რეგისტრაცია</button>
+          <button type="button" class="icon-btn" id="cartBtn" data-action="open-panel" data-panel="cart" aria-label="კალათა">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 8h11l-1 11h-9l-1-11z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg>
+            <span class="count-badge" id="cartBadge" data-count="0">0</span>
+          </button>
+          <button type="button" class="icon-btn menu-toggle" data-action="open-panel" data-panel="menu" aria-label="მენიუ">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
+        </div>
+      </div>
+      <form class="search-form" id="searchForm" role="search" inert>
+        <div class="search-form-inner">
+          <div class="search-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+            <label class="sr-only" for="searchInput">თამაშის ან კატეგორიის ძიება</label>
+            <input id="searchInput" type="search" placeholder="მოძებნე თამაში ან კატეგორია" autocomplete="off">
+            <button type="button" class="icon-btn search-clear" data-action="clear-search" aria-label="ძიების გასუფთავება" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="mega" id="mega">
+        <div class="mega-card">
+          <p class="mega-label">აირჩიე კატეგორია</p>
+          <div class="mega-grid" id="megaGrid"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>ონლაინ სამაგიდო თამაშები</p>
+          <h1>მაგიდა ერთია, მეგობრები ბევრი</h1>
+          <p class="lede">ითამაშე საყვარელი სამაგიდო თამაშები ონლაინ, გაუზიარე კოდი მეგობრებს და დაიწყეთ ერთად.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#catalog" data-action="jump" data-jump="free">უფასო თამაშების ნახვა</a>
+            <a class="btn btn-secondary" href="#catalog" data-action="jump" data-jump="all">ყველა თამაში</a>
+          </div>
+          <ul class="hero-stats">
+            <li><strong data-count="20">0</strong><span>თამაში კრებულში</span></li>
+            <li><strong><span data-count="1">0</span>–<span data-count="12">0</span></strong><span>მოთამაშე ერთ მაგიდაზე</span></li>
+            <li><strong>1</strong><span>კოდი, ბევრი მეგობარი</span></li>
+          </ul>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 680 600">
+            <defs>
+              <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#8A5A32" flood-opacity="0.16"/>
+              </filter>
+            </defs>
+            <circle cx="470" cy="250" r="210" fill="#FCE9D2"/>
+            <circle cx="150" cy="430" r="78" fill="#F6D77A" opacity="0.45"/>
+            <circle cx="560" cy="110" r="36" fill="#E86F5B" opacity="0.2"/>
+            <ellipse cx="350" cy="470" rx="230" ry="42" fill="#E7C4A0"/>
+            <ellipse cx="350" cy="458" rx="198" ry="30" fill="#F4D8B6"/>
+            <ellipse cx="350" cy="450" rx="160" ry="18" fill="#F8E6CF"/>
+            <g transform="translate(188 292)">
+              <g class="float-2">
+                <polygon points="0,-34 29,-17 29,17 0,34 -29,17 -29,-17" fill="#416B5A"/>
+                <polygon points="62,-20 86,-6 86,22 62,36 38,22 38,-6" fill="#172B36"/>
+                <polygon points="28,18 52,32 52,60 28,74 4,60 4,32" fill="#F6D77A"/>
+                <polygon points="-36,8 -14,21 -14,46 -36,59 -58,46 -58,21" fill="#FFFFFF"/>
+              </g>
+            </g>
+            <g transform="translate(250 348)"><ellipse cx="0" cy="48" rx="26" ry="8" fill="#172B36" opacity="0.08"/><rect x="-15" y="10" width="30" height="34" rx="14" fill="#E86F5B"/><circle cx="0" cy="2" r="13" fill="#E86F5B"/></g>
+            <g transform="translate(330 336)"><ellipse cx="0" cy="52" rx="26" ry="8" fill="#172B36" opacity="0.08"/><rect x="-15" y="12" width="30" height="36" rx="14" fill="#416B5A"/><circle cx="0" cy="4" r="13" fill="#416B5A"/></g>
+            <g transform="translate(408 352)"><ellipse cx="0" cy="46" rx="26" ry="8" fill="#172B36" opacity="0.08"/><rect x="-15" y="8" width="30" height="34" rx="14" fill="#172B36"/><circle cx="0" cy="0" r="13" fill="#172B36"/></g>
+            <g transform="translate(430 210)">
+              <g class="float-1" filter="url(#soft)">
+                <g transform="rotate(-18)"><rect x="-78" y="-20" width="92" height="128" rx="16" fill="#fff"/><path d="M-58 8h52M-58 28h52M-58 48h36" stroke="#E8A45B" stroke-width="4" stroke-linecap="round"/></g>
+                <g transform="rotate(6)"><rect x="-28" y="-36" width="92" height="128" rx="16" fill="#fff"/><circle cx="18" cy="28" r="22" fill="#F6D77A"/></g>
+                <g transform="rotate(24)"><rect x="18" y="-8" width="92" height="128" rx="16" fill="#FFF8EE"/><path d="M64 36l16 18-16 18-16-18z" fill="#416B5A"/></g>
+              </g>
+            </g>
+            <g transform="translate(36 168)">
+              <g class="float-3">
+                <rect width="148" height="58" rx="20" fill="#fff" filter="url(#soft)"/>
+                <text x="28" y="37" fill="#172B36" font-size="20" font-weight="700" font-family="Noto Sans Georgian, Segoe UI, sans-serif">მოვედი</text>
+              </g>
+            </g>
+            <g transform="translate(188 96)">
+              <g class="float-1">
+                <rect width="156" height="52" rx="18" fill="#172B36" filter="url(#soft)"/>
+                <text x="26" y="33" fill="#FBF6EC" font-size="18" font-weight="700" font-family="Noto Sans Georgian, Segoe UI, sans-serif">ვიწყებთ</text>
+              </g>
+            </g>
+            <g transform="translate(392 58)">
+              <g class="float-2">
+                <rect width="236" height="132" rx="22" fill="#fff" filter="url(#soft)"/>
+                <circle cx="22" cy="22" r="4" fill="#E86F5B"/>
+                <circle cx="36" cy="22" r="4" fill="#F6D77A"/>
+                <circle cx="50" cy="22" r="4" fill="#416B5A"/>
+                <text x="20" y="58" fill="#172B36" font-size="16" font-weight="700" font-family="Noto Sans Georgian, Segoe UI, sans-serif">მაგიდა გახსნილია</text>
+                <text x="20" y="80" fill="#3E5563" font-size="13" font-family="Noto Sans Georgian, Segoe UI, sans-serif">4 მეგობარი ხაზზეა</text>
+                <rect x="20" y="94" width="120" height="26" rx="13" fill="#FBF6EC"/>
+                <text x="34" y="112" fill="#172B36" font-size="14" font-weight="800" font-family="Noto Sans Georgian, Segoe UI, sans-serif">კოდი 184 392</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="band reveal" id="how">
+      <div class="container">
+        <div class="section-head">
+          <h2>როგორ მუშაობს</h2>
+          <p>ყუთი და მიწოდება არ გჭირდებათ. ირჩევთ თამაშს, იღებთ კოდს და მეგობრები იმავე მაგიდას ინტერნეტით უერთდებიან.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="8.5" y="13" width="7" height="7" rx="2"/></svg>
+            </div>
+            <h3>აირჩიე თამაში</h3>
+            <p>უფასო თამაში მაშინვე იხსნება. ფასიანზე იღებთ 24 საათიან კოდს ან მთელ თვეს ერთი პაკეტით.</p>
+          </article>
+          <article class="step">
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="6" width="16" height="12" rx="3"/><path d="M8 12h8"/></svg>
+            </div>
+            <h3>მიიღე კოდი</h3>
+            <p>თითოეულ თამაშს აქვს საკუთარი კოდი. მას იღებთ თქვენ და უგზავნით იმ წრეს, ვისთანაც გსურთ თამაში.</p>
+          </article>
+          <article class="step">
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="9" r="2.2"/><circle cx="16" cy="9" r="2.2"/><path d="M4.2 18c.6-2.4 2.2-3.6 3.8-3.6S11.2 15.6 11.8 18M12.2 18c.6-2.4 2.2-3.6 3.8-3.6 1.6 0 3.2 1.2 3.8 3.6"/></svg>
+            </div>
+            <h3>გაუზიარე მეგობრებს</h3>
+            <p>მეგობრები იმავე კოდით სხდებიან მაგიდასთან. მათ თამაშის ყიდვა არ სჭირდებათ.</p>
+          </article>
+        </div>
+        <p class="note-strip">ერთჯერადი კოდი მოქმედებს 24 საათს. თვიური პაკეტით კი ერთი თვის განმავლობაში ყველა ფასიან თამაშზე ახალ კოდს იღებთ და მასაც მეგობრებს უზიარებთ.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="catalog">
+      <div class="container">
+        <div class="section-head">
+          <h2>თამაშების კრებული</h2>
+          <p>აირჩიე მაგიდა, მიიღე კოდი და დაუძახე მეგობრებს. ყველა თამაში ონლაინ ითამაშება.</p>
+        </div>
+        <div class="filters" id="filters" aria-label="ფილტრები">
+          <div class="filters-mobile-head">
+            <h2 id="filtersTitle">ფილტრები</h2>
+            <button type="button" class="icon-btn" data-action="close-panel" aria-label="ფილტრების დახურვა">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+          </div>
+          <div class="segment" role="radiogroup" aria-label="თამაშის ტიპი">
+            <button type="button" data-action="type" data-type="all" aria-pressed="true">ყველა</button>
+            <button type="button" data-action="type" data-type="free" aria-pressed="false">უფასო</button>
+            <button type="button" data-action="type" data-type="paid" aria-pressed="false">ფასიანი</button>
+          </div>
+          <label class="field"><span>კატეგორია</span><select id="fCategory" aria-label="კატეგორია"></select></label>
+          <label class="field"><span>მოთამაშეები</span>
+            <select id="fPlayers">
+              <option value="all">ყველა</option>
+              <option value="1-2">1–2</option>
+              <option value="3-4">3–4</option>
+              <option value="5-6">5–6</option>
+              <option value="7-99">7 და მეტი</option>
+            </select>
+          </label>
+          <label class="field"><span>ხანგრძლივობა</span>
+            <select id="fDuration">
+              <option value="all">ყველა</option>
+              <option value="15">15 წუთამდე</option>
+              <option value="30">16–30 წუთი</option>
+              <option value="60">31–60 წუთი</option>
+              <option value="61">60 წუთზე მეტი</option>
+            </select>
+          </label>
+          <label class="field"><span>ვარგისია ასაკისთვის</span>
+            <select id="fAge">
+              <option value="all">ყველა ასაკი</option>
+              <option value="6">6 წლისთვის</option>
+              <option value="8">8 წლისთვის</option>
+              <option value="10">10 წლისთვის</option>
+              <option value="12">12 წლისთვის</option>
+              <option value="14">14 წლისთვის</option>
+            </select>
+          </label>
+          <label class="field"><span>სირთულე</span>
+            <select id="fDifficulty">
+              <option value="all">ყველა</option>
+              <option value="მარტივი">მარტივი</option>
+              <option value="საშუალო">საშუალო</option>
+              <option value="რთული">რთული</option>
+            </select>
+          </label>
+          <div class="field"><span>ფასი, ₾</span>
+            <div class="price-row">
+              <input id="fPriceMin" type="number" min="0" inputmode="numeric" placeholder="დან" aria-label="ფასი, დან">
+              <input id="fPriceMax" type="number" min="0" inputmode="numeric" placeholder="მდე" aria-label="ფასი, მდე">
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary filters-clear" data-action="clear-filters">გასუფთავება</button>
+        </div>
+        <div class="catalog-tools">
+          <p class="result-count" id="resultCount" aria-live="polite">ნაპოვნია 0 თამაში</p>
+          <label class="sort-field"><span>დახარისხება</span>
+            <select id="fSort">
+              <option value="popular">პოპულარობით</option>
+              <option value="rating">რეიტინგით</option>
+              <option value="price-asc">ფასი: ზრდადი</option>
+              <option value="price-desc">ფასი: კლებადი</option>
+              <option value="new">სიახლით</option>
+              <option value="alpha">ანბანით</option>
+            </select>
+          </label>
+          <button type="button" class="btn btn-secondary only-mobile" data-action="open-panel" data-panel="filters" aria-controls="filters">
+            ფილტრები <span class="filter-count" id="filterCount" data-count="0">0</span>
+          </button>
+        </div>
+        <div class="game-grid animate" id="gameGrid"></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="package">
+      <div class="container">
+        <article class="package-card">
+          <div class="package-copy">
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>თვიური პაკეტი</p>
+            <h2>ყველა ფასიანი თამაში, ერთი თვე</h2>
+            <p class="muted">პაკეტის მქონე ყოველი თამაშის დაწყებისას იღებს კოდს და მას მეგობრებს უზიარებს. მეგობრებს ცალკე არაფრის ყიდვა არ სჭირდებათ.</p>
+            <ul class="benefits">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><span>ყველა ფასიანი თამაში ერთი თვის განმავლობაში</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><span>ყოველ თამაშზე ახალი გასაზიარებელი კოდი</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><span>მეგობრები იმავე კოდით უფასოდ ერთვებიან</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><span>უფასო თამაშები ისედაც ღიაა ყველასთვის</span></li>
+            </ul>
+          </div>
+          <div class="package-offer">
+            <p class="package-price"><span data-monthly>25</span> ₾<span>/თვე</span></p>
+            <button type="button" class="btn btn-primary btn-block" id="packageBtn" data-action="add-package">პაკეტის დამატება კალათაში</button>
+            <p class="fine">დემო ფასი. კოდს იღებთ თამაშის ჩართვისას.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="logo" href="#top" data-action="home">
+          <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+            <path class="outer" d="M20 3 33 11v14L20 33 7 25V11Z" fill="#E8A45B"/>
+            <path class="inner" d="M20 9.2 28.2 14v8.2L20 26.8 11.8 22.2V14Z" fill="#172B36"/>
+            <path class="core" d="M20 14.5 23.6 16.6v4.2L20 22.9 16.4 20.8v-4.2Z" fill="#F6D77A"/>
+          </svg>
+          <span data-site-name>თამაშობანა</span>
+        </a>
+        <p class="footer-lead">ონლაინ სამაგიდო თამაშების კრებული. ერთი მაგიდა, ერთი კოდი და იმდენი მეგობარი, რამდენიც წესები იტევს.</p>
+        <div class="socials">
+          <button type="button" class="icon-btn" data-action="soon" data-soon="სოციალური გვერდი მალე დაემატება" aria-label="ფეისბუქი">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.6l.4-3H13v-2c0-.6.4-1 1-1z"/></svg>
+          </button>
+          <button type="button" class="icon-btn" data-action="soon" data-soon="სოციალური გვერდი მალე დაემატება" aria-label="ინსტაგრამი">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none"/></svg>
+          </button>
+          <button type="button" class="icon-btn" data-action="soon" data-soon="სოციალური გვერდი მალე დაემატება" aria-label="იუთუბი">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M21 8.2a3 3 0 0 0-2.1-2.1C17.2 5.6 12 5.6 12 5.6s-5.2 0-6.9.5A3 3 0 0 0 3 8.2 31 31 0 0 0 2.5 12 31 31 0 0 0 3 15.8a3 3 0 0 0 2.1 2.1c1.7.5 6.9.5 6.9.5s5.2 0 6.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-3.8 31 31 0 0 0-.5-3.8zM10.5 15.2V8.8L15.5 12l-5 3.2z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div>
+        <h2>თამაშები</h2>
+        <div class="footer-links">
+          <a href="#catalog" data-action="jump" data-jump="new">ახალი</a>
+          <a href="#catalog" data-action="jump" data-jump="popular">პოპულარული</a>
+          <a href="#catalog" data-action="jump" data-jump="all">ყველა თამაში</a>
+          <a href="#catalog" data-action="jump" data-jump="free">უფასო</a>
+          <a href="#catalog" data-action="jump" data-jump="paid">ფასიანი</a>
+        </div>
+      </div>
+      <div>
+        <h2>პლატფორმა</h2>
+        <div class="footer-links">
+          <a href="#about">ჩვენ შესახებ</a>
+          <a href="#contact">კონტაქტი</a>
+          <a href="#terms">წესები და პირობები</a>
+          <a href="#privacy">კონფიდენციალურობა</a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="about-block" id="about">
+        <h2>ჩვენ შესახებ</h2>
+        <p><span data-site-name>თამაშობანა</span> ონლაინ სამაგიდო თამაშების კრებულია. ფიზიკურ ყუთს არ ვყიდით — მეგობრები ერთ მაგიდას ინტერნეტით იზიარებენ. ერთი კოდი საკმარისია, რომ მთელი წრე შემოგიერთდეთ.</p>
+      </div>
+      <div class="about-block" id="contact">
+        <h2>კონტაქტი</h2>
+        <p>კითხვებისთვის მოგვწერეთ: info@tamashobana.ge. ეს გვერდი სადემონსტრაციოა და წერილი ჯერ არ იგზავნება.</p>
+      </div>
+      <div class="legal-block" id="terms">
+        <h2>წესები და პირობები</h2>
+        <p>თამაში იწყება კოდით. ერთჯერადი წვდომა მოქმედებს 24 საათს შეძენიდან. თვიური პაკეტი მოქმედებს ერთ თვეს. მეგობრები კოდით უერთდებიან და დამატებით არ იხდიან. გადახდა ამ დემოში ჯერ არ სრულდება.</p>
+      </div>
+      <div class="legal-block" id="privacy">
+        <h2>კონფიდენციალურობა</h2>
+        <p>საბანკო მონაცემებს არ ვინახავთ. რჩეულები, კალათა და მიმოხილვები მხოლოდ თქვენს ბრაუზერში რჩება.</p>
+      </div>
+      <p class="footer-note">© <span id="year">2026</span> <span data-site-name>თამაშობანა</span>. ყველა უფლება დაცულია.</p>
+    </div>
+  </footer>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <aside class="drawer drawer-left" id="drawerMenu" role="dialog" aria-modal="true" aria-labelledby="menuTitle" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <h2 id="menuTitle">მენიუ</h2>
+      <button type="button" class="icon-btn" data-action="close-panel" aria-label="მენიუს დახურვა">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <nav class="menu-list" aria-label="მობილური ნავიგაცია">
+        <button type="button" data-action="home">მთავარი</button>
+        <button type="button" data-action="jump" data-jump="all">ყველა თამაში</button>
+        <button type="button" data-action="jump" data-jump="free">უფასო თამაშები</button>
+        <button type="button" data-action="jump" data-jump="paid">ფასიანი თამაშები</button>
+        <button type="button" class="acc-btn" id="accBtn" data-action="toggle-acc" aria-expanded="false" aria-controls="mobileCats">
+          კატეგორიები
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-panel" id="mobileCats"><div id="mobileCatsInner"></div></div>
+      </nav>
+    </div>
+    <div class="drawer-auth">
+      <button type="button" class="btn btn-secondary btn-block" data-action="soon">შესვლა</button>
+      <button type="button" class="btn btn-primary btn-block" data-action="soon">რეგისტრაცია</button>
+    </div>
+  </aside>
+
+  <aside class="drawer drawer-right" id="drawerCart" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <h2 id="cartTitle">კალათა</h2>
+      <button type="button" class="icon-btn" data-action="close-panel" aria-label="კალათის დახურვა">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body" id="cartBody"></div>
+    <div class="drawer-foot" id="cartFoot" hidden></div>
+  </aside>
+
+  <aside class="drawer drawer-right" id="drawerFav" role="dialog" aria-modal="true" aria-labelledby="favTitle" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <h2 id="favTitle">რჩეულები</h2>
+      <button type="button" class="icon-btn" data-action="close-panel" aria-label="რჩეულების დახურვა">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body" id="favBody"></div>
+  </aside>
+
+  <div class="popover" id="popover" hidden role="dialog" aria-label="წვდომის არჩევა">
+    <button type="button" data-action="choice-access"><span>24 საათიანი კოდი</span><span id="popoverPrice">5 ₾</span></button>
+    <button type="button" data-action="choice-package"><span>თვიური პაკეტი</span><span data-monthly-label>25 ₾</span></button>
+    <p>მეგობრები კოდით უფასოდ ერთვებიან.</p>
+  </div>
+
+  <div class="modal" id="gameDialog" hidden role="dialog" aria-modal="true" aria-labelledby="gameDialogTitle">
+    <div class="modal-card" id="gameDialogCard">
+      <button type="button" class="icon-btn modal-close" data-action="close-game" aria-label="დახურვა">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div id="gameDialogBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="codeDialog" hidden role="dialog" aria-modal="true" aria-labelledby="codeTitle">
+    <div class="modal-card code-card">
+      <button type="button" class="icon-btn modal-close" data-action="close-code" aria-label="დახურვა">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h2 id="codeTitle">თამაში იწყება</h2>
+      <p class="muted" id="codeLead"></p>
+      <p class="code-chip" id="codeValue">000 000</p>
+      <p class="muted">გაუზიარე კოდი მეგობრებს. ისინი უფასოდ შემოგიერთდებიან.</p>
+      <div class="code-actions">
+        <button type="button" class="btn btn-primary" data-action="copy-code">კოდის კოპირება</button>
+        <button type="button" class="btn btn-secondary" data-action="close-code">დახურვა</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    "use strict";
+
+    /* ============================================
+       კონფიგურაცია
+       სახელის შესაცვლელად შეცვალე მხოლოდ SITE_NAME.
+       თვიური ფასი — CONFIG.monthlyPrice.
+       ============================================ */
+    const SITE_NAME = "თამაშობანა";
+    const CONFIG = {
+      slogan: "მაგიდა ერთია, მეგობრები ბევრი",
+      monthlyPrice: 25,
+      storageKey: "tamashobana-v1"
+    };
+
+    /* ============================================
+       კატეგორიები — ახალი კატეგორია აქ ემატება
+       ============================================ */
+    const CATEGORIES = [
+      { id: "strategy", name: "სტრატეგიული", short: "სტრატეგიული", desc: "გეგმა, რესურსი და გრძელი სვლები", icon: "hex" },
+      { id: "family", name: "საოჯახო", short: "საოჯახო", desc: "მშვიდი წესები მთელი ოჯახისთვის", icon: "home" },
+      { id: "kids", name: "საბავშვო", short: "საბავშვო", desc: "მარტივი, თბილი და მოკლე", icon: "blocks" },
+      { id: "party", name: "სამეგობრო", short: "სამეგობრო", desc: "ხმამაღალი წრე და ფარული როლები", icon: "people" },
+      { id: "cards", name: "კარტის თამაშები", short: "კარტი", desc: "ხელები, რაუნდები და ბლეფი", icon: "card" },
+      { id: "logic", name: "ლოგიკური", short: "ლოგიკური", desc: "თავსატეხი საერთო მაგიდაზე", icon: "nodes" },
+      { id: "coop", name: "კოოპერატიული", short: "კოოპერატიული", desc: "ერთად, ერთი მიზნისკენ", icon: "coop" },
+      { id: "detective", name: "დეტექტიური და საიდუმლოებით", short: "დეტექტიური", desc: "კვალი, როლები და ეჭვი", icon: "search" },
+      { id: "fantasy", name: "ფენტეზი", short: "ფენტეზი", desc: "რუკები, ფიცი და გამოგონილი სამყარო", icon: "moon" },
+      { id: "words", name: "სიტყვების თამაშები", short: "სიტყვები", desc: "ასოები, მნიშვნელობა და სისწრაფე", icon: "tile" },
+      { id: "quiz", name: "ვიქტორინები", short: "ვიქტორინა", desc: "კითხვები მეგობრების წრეში", icon: "chat" },
+      { id: "quick", name: "სწრაფი თამაშები (15 წუთამდე)", short: "სწრაფი", desc: "პარტია, რომელიც მეოთხედ საათში ეტევა", icon: "clock" }
+    ];
+
+    /* ============================================
+       თამაშები — ახალი თამაში ამ მასივში ემატება
+       price: 0 ნიშნავს უფასოს. colors: [მუქი, ღია] გრადიენტი.
+       ============================================ */
+    const GAMES = [
+      { id: "nilis-khidi", name: "ნისლის ხიდი", categories: ["coop", "detective"], description: "გუნდი ერთად კვეთს ნისლიან ხიდს. თითოეული მხოლოდ თავის ნიშნებს ხედავს, უსაფრთხო ბილიკი კი საერთო მეხსიერებით იკვრება.", price: 0, playersMin: 2, playersMax: 4, duration: 50, age: 10, difficulty: "საშუალო", rating: 4.7, reviewCount: 186, colors: ["#1E4A44", "#4E8A74"], motif: "path", isNew: false, isPopular: true, created: "2026-02-11", letters: ["ა", "მ", "რ"],
+        reviews: [{ name: "ნინო", rating: 5, text: "ნისლში გზის ძებნა მართლა გუნდურად გვაიძულებს ლაპარაკს. ოთხივე მეგობარი ბოლომდე ჩართული იყო.", date: "2026-08-14" }, { name: "გიორგი", rating: 4, text: "სიმშვიდე და დაძაბულობა კარგადაა აწონილი. მეორე პარტიაზეც იგივე მაგიდა მოვითხოვეთ.", date: "2026-09-02" }] },
+      { id: "tsetskhlis-tsre", name: "ცეცხლის წრე", categories: ["party"], description: "წრეში ერთი ფარული ცეცხლი დგას. სწრაფი კითხვებით უნდა გამოიცნოთ, ვინ თამაშობს სხვანაირად, სანამ წრე არ დაიწვება.", price: 5, playersMin: 4, playersMax: 10, duration: 20, age: 12, difficulty: "მარტივი", rating: 4.5, reviewCount: 240, colors: ["#A84332", "#E07A4A"], motif: "bubbles", isNew: false, isPopular: true, created: "2026-03-02",
+        reviews: [{ name: "ანა", rating: 5, text: "საღამოსთვის ზუსტი სიგრძეა. ეჭვი და სიცილი ერთად მოვიდა.", date: "2026-07-19" }, { name: "ლუკა", rating: 4, text: "წესები ერთ წუთში გაიგო ყველამ. ფარული როლი ბოლომდე საინტერესო რჩება.", date: "2026-09-11" }] },
+      { id: "varskvlavis-ruka", name: "ვარსკვლავის რუკა", categories: ["strategy", "fantasy"], description: "ვარსკვლავურ რუკაზე აშენებთ გზებს და იკავებთ თანავარსკვლავედებს. ერთი სვლა ხშირად რამდენიმე გზას ხურავს.", price: 8, playersMin: 2, playersMax: 5, duration: 70, age: 12, difficulty: "რთული", rating: 4.8, reviewCount: 132, colors: ["#243B66", "#4C6E99"], motif: "nodes", isNew: false, isPopular: false, created: "2026-01-20",
+        reviews: [{ name: "მარიამი", rating: 5, text: "რუკა ლამაზია და არჩევანი მძიმე. ვისაც გეგმა უყვარს, აქ დიდხანს დარჩება.", date: "2026-06-03" }, { name: "დათა", rating: 5, text: "ორი საათი გაგვიარა შეუმჩნევლად. ფინალი ბოლო სვლამდე ღია იყო.", date: "2026-08-28" }] },
+      { id: "sitqvis-baghi", name: "სიტყვის ბაღი", categories: ["words", "family"], description: "ასოების ფილებით ზრდით საერთო ბაღს. გრძელი სიტყვა მეტ ყვავილს ხსნის, მოკლე კი მეზობელს ადგილს უტოვებს.", price: 0, playersMin: 2, playersMax: 6, duration: 25, age: 8, difficulty: "მარტივი", rating: 4.6, reviewCount: 310, colors: ["#2F6A4E", "#6FA884"], motif: "letters", isNew: false, isPopular: true, created: "2026-02-28", letters: ["ა", "ბ", "გ"],
+        reviews: [{ name: "სალომე", rating: 5, text: "ბავშვებმაც ითამაშეს და უფროსებმაც. ბაღი მაგიდაზე ნელა იზრდება და ეს სიამოვნებაა.", date: "2026-05-16" }, { name: "ნიკა", rating: 4, text: "მშვიდი ტემპია, კამათის გარეშე. ოჯახურ საღამოს კარგად ერგება.", date: "2026-09-20" }] },
+      { id: "shavi-gasagebi", name: "შავი გასაღები", categories: ["detective", "coop"], description: "ერთი გასაღები, ხუთი ოთახი და საათი, რომელიც არ გელოდებათ. კვალს ერთად კითხულობთ და ბოლოს ერთ კარს აღებთ.", price: 6, playersMin: 1, playersMax: 4, duration: 45, age: 12, difficulty: "საშუალო", rating: 4.7, reviewCount: 98, colors: ["#1C2833", "#45586A"], motif: "rings", isNew: false, isPopular: false, created: "2026-04-04",
+        reviews: [{ name: "თამარი", rating: 5, text: "მარტომაც ვცადე და მეგობრებთანაც. ორივეჯერ ბოლო ოთახი გაგვაკვირვა.", date: "2026-07-02" }, { name: "სანდრო", rating: 4, text: "კარგი კოოპერატივია, თუ მაგიდა ერთმანეთს უსმენს.", date: "2026-08-09" }] },
+      { id: "feradi-koshki", name: "ფერადი კოშკი", categories: ["kids", "family", "quick"], description: "რიგრიგობით დგამთ ფერად სართულებს. ერთი ფერი არ უნდა შეეხოს საკუთარ თავს, კოშკი კი უნდა გაძლოს.", price: 0, playersMin: 2, playersMax: 4, duration: 15, age: 5, difficulty: "მარტივი", rating: 4.8, reviewCount: 420, colors: ["#8C431F", "#D4844A"], motif: "tower", isNew: false, isPopular: true, created: "2026-01-08",
+        reviews: [{ name: "ელენე", rating: 5, text: "ხუთი წლისაც გაუგია წესი. მოკლეა და მეორე კოშკს თავად ითხოვენ.", date: "2026-04-22" }, { name: "ლაშა", rating: 5, text: "უფროსებისთვისაც სასიამოვნოა, როცა ფერები ბოლოს აღარ ჯდება.", date: "2026-06-18" }] },
+      { id: "mtvaris-bazari", name: "მთვარის ბაზარი", categories: ["fantasy", "strategy"], description: "მთვარის შუქზე ცვლით ნივთებს და ფარულ შეკვეთებს ასრულებთ. ვინც ბაზარს სწორად წაიკითხავს, ღამის ბოლოს ყველაზე მდიდარი რჩება.", price: 9, playersMin: 2, playersMax: 4, duration: 60, age: 10, difficulty: "საშუალო", rating: 4.4, reviewCount: 76, colors: ["#4A3A6B", "#7D6A9A"], motif: "coins", isNew: true, isPopular: false, created: "2026-10-02",
+        reviews: [{ name: "ქეთევან", rating: 4, text: "ვაჭრობა ნელია და ლამაზი. ახალი თამაშია, მაგრამ მაგიდა უკვე მეორედ შევიკრიბეთ.", date: "2026-10-12" }, { name: "ირაკლი", rating: 5, text: "ფარული შეკვეთა ბოლო რაუნდამდე არ გამიმხელია. ეს მომეწონა.", date: "2026-10-18" }] },
+      { id: "swrafi-kitkhva", name: "სწრაფი კითხვა", categories: ["quiz", "quick", "family"], description: "ათი წამი თითო კითხვაზე. ვინც პირველი აკაკუნებს, ის პასუხობს. გამოდგება ოჯახისთვისაც და დიდი წრისთვისაც.", price: 0, playersMin: 2, playersMax: 12, duration: 15, age: 8, difficulty: "მარტივი", rating: 4.3, reviewCount: 510, colors: ["#A33B3B", "#E07A6A"], motif: "bubbles", isNew: false, isPopular: true, created: "2026-03-18",
+        reviews: [{ name: "ბარბარე", rating: 4, text: "სწრაფია და ხმამაღალი. თორმეტი კაციც კი ჩაეტია ერთ კოდში.", date: "2026-05-30" }, { name: "ნინო", rating: 4, text: "კითხვები არც ისე რთულია, ამიტომ ბავშვიც პასუხობს.", date: "2026-08-01" }] },
+      { id: "okros-pila", name: "ოქროს ფილა", categories: ["logic"], description: "ოქროს ფილები ისე უნდა დალაგდეს, რომ ნახატი მხოლოდ ბოლო სვლაზე გამოჩნდეს. მშვიდი და ზუსტი თავსატეხია, ერთისთვის ან ორისთვის.", price: 5, playersMin: 1, playersMax: 2, duration: 30, age: 10, difficulty: "რთული", rating: 4.9, reviewCount: 154, colors: ["#6E4710", "#C48A2A"], motif: "hex", isNew: false, isPopular: false, created: "2026-02-02",
+        reviews: [{ name: "გიორგი", rating: 5, text: "ბოლო ფილამდე არ ჩანდა, სწორად ვაგებდი თუ არა. ეს კარგი ლოგიკაა.", date: "2026-04-11" }, { name: "ანა", rating: 5, text: "ორნი ვთამაშობდით ჩუმად. ნახატის გახსნა ნამდვილად ახარებს.", date: "2026-07-27" }] },
+      { id: "megobrebis-tsre", name: "მეგობრების წრე", categories: ["party"], description: "ყველას აქვს საიდუმლო როლი და ერთი წინადადება, რომელსაც მაგიდა არ უნდა დაუჯეროს. საღამოს თამაში სიცილით და ეჭვით.", price: 5, playersMin: 5, playersMax: 12, duration: 30, age: 14, difficulty: "მარტივი", rating: 4.6, reviewCount: 288, colors: ["#B14A3A", "#E3946A"], motif: "coins", isNew: false, isPopular: true, created: "2026-05-05",
+        reviews: [{ name: "დათა", rating: 5, text: "დიდ წრეში ცოცხლდება. როლები მოკლეა, ამიტომ ახალი სტუმარიც ერგება.", date: "2026-06-21" }, { name: "სალომე", rating: 4, text: "საღამოს ცენტრი გახდა. მეორე რაუნდი უფრო სახალისო იყო.", date: "2026-09-08" }] },
+      { id: "tqis-fitsi", name: "ტყის ფიცი", categories: ["coop", "fantasy"], description: "ტყეში დაკარგულ ბილიკს ერთად იცავთ. თუ ერთი მოთამაშე დაეცემა, საერთო ფიცი სუსტდება, ამიტომ სვლას ერთმანეთს უთანხმებთ.", price: 7, playersMin: 2, playersMax: 5, duration: 55, age: 10, difficulty: "საშუალო", rating: 4.5, reviewCount: 121, colors: ["#1E4A38", "#3E7A5C"], motif: "path", isNew: false, isPopular: false, created: "2026-04-19",
+        reviews: [{ name: "თამარი", rating: 5, text: "კოოპერატივი სამართლიანია: ერთის შეცდომა ყველას ეტყობა, მაგრამ გუნდი ამით მჭიდრდება.", date: "2026-06-09" }, { name: "ლუკა", rating: 4, text: "ტყის რუკა ლამაზია. ბილიკის დაცვა ნელ-ნელა ძნელდება.", date: "2026-08-16" }] },
+      { id: "chrdilis-karti", name: "ჩრდილის კარტი", categories: ["cards", "detective"], description: "ხელში ჩრდილი იმალება, მაგიდა კი ცდილობს მის გამომჟღავნებას. რაუნდები სწრაფია, ბოლო ხელი კი ანგარიშს აბრუნებს.", price: 5, playersMin: 3, playersMax: 6, duration: 35, age: 12, difficulty: "საშუალო", rating: 4.4, reviewCount: 167, colors: ["#2C2438", "#5C4A68"], motif: "cards", isNew: false, isPopular: false, created: "2026-03-27",
+        reviews: [{ name: "ნიკა", rating: 4, text: "ბლეფი მოკლე ხელებში კარგად ზის. ბოლო რაუნდმა ანგარიში გადაგვატრიალა.", date: "2026-05-08" }, { name: "მარიამი", rating: 5, text: "კარტის თამაშია, მაგრამ მაგიდა მთლიანად საუბრობს. ეს მომეწონა.", date: "2026-07-14" }] },
+      { id: "anbanis-tsetskhli", name: "ანბანის ცეცხლი", categories: ["words", "quick"], description: "ასო იწვის ათ წამში. მოასწარით სიტყვა, სანამ ქრება, და არ გაიმეოროთ ის, რაც მეზობელმა უკვე თქვა.", price: 0, playersMin: 2, playersMax: 8, duration: 12, age: 8, difficulty: "მარტივი", rating: 4.2, reviewCount: 203, colors: ["#8E3E28", "#D4784A"], motif: "letters", isNew: false, isPopular: false, created: "2026-05-22", letters: ["ც", "ე", "ხ"],
+        reviews: [{ name: "სანდრო", rating: 4, text: "ათი წუთი საკმარისია ერთი წრის გასახურებლად. სიტყვები სწრაფად გვეწურება.", date: "2026-06-30" }, { name: "ელენე", rating: 4, text: "ბავშვებთანაც ვითამაშეთ. განმეორების აკრძალვა თამაშს ცოცხალს ტოვებს.", date: "2026-09-15" }] },
+      { id: "tsikhis-gegma", name: "ციხის გეგმა", categories: ["strategy"], description: "ერთ ციხეს ოთხი მხრიდან აშენებთ. გეგმა საერთო ჩანს, რესურსი კი არა. გრძელი სტრატეგიაა მათთვის, ვისაც სვლების წინასწარ თვლა უყვარს.", price: 12, playersMin: 2, playersMax: 4, duration: 90, age: 14, difficulty: "რთული", rating: 4.8, reviewCount: 89, colors: ["#2E3A46", "#5E7384"], motif: "tower", isNew: true, isPopular: false, created: "2026-10-08",
+        reviews: [{ name: "ირაკლი", rating: 5, text: "დიდი თამაშია და ამას არ მალავს. გეგმის ნახვა და რესურსის დამალვა კარგი წყვილია.", date: "2026-10-15" }, { name: "ქეთევან", rating: 4, text: "საათნახევარი გვჭირდა. ვისაც მოკლე პარტია უნდა, ეს არაა, მაგრამ ჩვენთვის ზუსტი აღმოჩნდა.", date: "2026-10-21" }] },
+      { id: "patara-detektivi", name: "პატარა დეტექტივი", categories: ["kids", "detective"], description: "გაუჩინარებული ფანქარი, სამი კვალი და მოკლე კითხვები. ბავშვებისთვის რბილი საიდუმლოა, რომელსაც უფროსიც სიამოვნებით მიჰყვება.", price: 0, playersMin: 2, playersMax: 4, duration: 20, age: 6, difficulty: "მარტივი", rating: 4.7, reviewCount: 256, colors: ["#1F6A5C", "#3E9A84"], motif: "rings", isNew: false, isPopular: false, created: "2026-04-12",
+        reviews: [{ name: "ბარბარე", rating: 5, text: "შვილმა თავად წაიკითხა კვალი. საშინელი არაფერია, მხოლოდ პატარა გამოცანა.", date: "2026-05-19" }, { name: "ლაშა", rating: 4, text: "ოცი წუთი და სუფთა დასასრული. საბავშვო თამაშებს შორის ერთ-ერთი მშვიდია.", date: "2026-08-05" }] },
+      { id: "ghamis-kodi", name: "ღამის კოდი", categories: ["party", "detective"], description: "ღამით ორი მოთამაშე ცვლის საერთო კოდს. დილით მაგიდა კამათობს, ვისი ვერსიაა მართალი. ფარული როლები დიდ წრეს სჭირდება.", price: 6, playersMin: 6, playersMax: 10, duration: 40, age: 14, difficulty: "საშუალო", rating: 4.6, reviewCount: 340, colors: ["#1A3044", "#3E6078"], motif: "bubbles", isNew: false, isPopular: true, created: "2026-06-01",
+        reviews: [{ name: "ნიკა", rating: 5, text: "კოდის ორი ვერსია მაგიდას შუაზე ჰყოფს. კამათი თამაშის ნაწილია და ეს გულწრფელადაა გაკეთებული.", date: "2026-07-08" }, { name: "ანა", rating: 4, text: "ექვსზე ნაკლებზე არ ღირს. ათი კაცით კი საღამოს საუკეთესო მაგიდა იყო.", date: "2026-09-26" }] },
+      { id: "zgapris-karti", name: "ზღაპრის კარტი", categories: ["cards", "family"], description: "კარტები ერთ ზღაპარს კრავს. რიგრიგობით ამატებთ წინადადებას, ბოლოს კი ის იგებს, ვინც ისტორიას ლამაზად დახურავს.", price: 5, playersMin: 2, playersMax: 5, duration: 30, age: 7, difficulty: "მარტივი", rating: 4.5, reviewCount: 178, colors: ["#6E3A48", "#C47A6A"], motif: "cards", isNew: false, isPopular: false, created: "2026-05-14",
+        reviews: [{ name: "სალომე", rating: 5, text: "ისტორიები სასაცილო გამოდის. შვიდი წლისაც ამატებს წინადადებას და მაგიდა უსმენს.", date: "2026-06-12" }, { name: "გიორგი", rating: 4, text: "წესი მსუბუქია, ამიტომ საუბარი თამაშზე დიდი ხდება. ოჯახში ეს გვინდა ხოლმე.", date: "2026-08-23" }] },
+      { id: "eqvsi-kutkhe", name: "ექვსი კუთხე", categories: ["logic", "strategy"], description: "ჰექსაგონურ ფილებს აერთებთ ისე, რომ ერთი ფერის ხაზი არსად გაწყდეს. მშვიდი ლოგიკაა, რომელსაც სტრატეგიული სვლაც ერევა.", price: 7, playersMin: 2, playersMax: 4, duration: 40, age: 10, difficulty: "საშუალო", rating: 4.3, reviewCount: 94, colors: ["#1C4E48", "#3E8A78"], motif: "hex", isNew: false, isPopular: false, created: "2026-07-03",
+        reviews: [{ name: "მარიამი", rating: 4, text: "ფერის ხაზის შენარჩუნება უფრო ღრმაა, ვიდრე პირველ სვლაზე ჩანს.", date: "2026-07-29" }, { name: "დათა", rating: 4, text: "ლამაზი ფილებია და მაგიდა დიდხანს რჩება წესრიგში. მშვიდ თამაშს ეძებდა ჩვენი წრე.", date: "2026-09-04" }] },
+      { id: "napertsklis-viktorina", name: "ნაპერწკლის ვიქტორინა", categories: ["quiz", "family"], description: "ოთხი თემა და ერთი ნაპერწკალი, რომელიც თემას ირჩევს. კითხვები მეცნიერებიდან ზღაპრამდე მიდის, ამიტომ მაგიდასთან ყველა ასაკი თამაშობს.", price: 0, playersMin: 2, playersMax: 8, duration: 25, age: 8, difficulty: "მარტივი", rating: 4.4, reviewCount: 142, colors: ["#8A5414", "#D4923A"], motif: "dots", isNew: true, isPopular: false, created: "2026-10-11",
+        reviews: [{ name: "ელენე", rating: 5, text: "თემის შემთხვევითობა მაგიდას თანაბრად უნაწილებს შანსს. ახალი კითხვები ჯერ არ განმეორდა.", date: "2026-10-16" }, { name: "ლუკა", rating: 4, text: "ოჯახური ვიქტორინაა, ტრიუმფის გარეშე. ეს ტონი მომწონს.", date: "2026-10-22" }] },
+      { id: "erti-amosuntqva", name: "ერთი ამოსუნთქვა", categories: ["quick", "party"], description: "თითო სვლა ერთ ამოსუნთქვაში უნდა დაეტიოს. ვინც დააგვიანებს, ფილას კარგავს. მოკლე თამაშია, მოულოდნელი ფინალით.", price: 5, playersMin: 3, playersMax: 8, duration: 10, age: 10, difficulty: "მარტივი", rating: 4.1, reviewCount: 67, colors: ["#A34A3A", "#E08A4E"], motif: "dots", isNew: true, isPopular: false, created: "2026-10-19",
+        reviews: [{ name: "სანდრო", rating: 4, text: "ათი წუთი და მაგიდა უკვე ხმამაღალია. დაგვიანების წესი სამართლიანად მკაცრია.", date: "2026-10-20" }, { name: "თამარი", rating: 4, text: "პატარა პაუზისთვის ზუსტია. დიდ საღამოში რამდენიმე პარტია დავდეთ.", date: "2026-10-25" }] }
+    ];
+
+    const categoryMap = Object.fromEntries(CATEGORIES.map((c) => [c.id, c]));
+    const motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const state = {
+      query: "",
+      type: "all",
+      category: "all",
+      players: "all",
+      duration: "all",
+      age: "all",
+      difficulty: "all",
+      priceMin: "",
+      priceMax: "",
+      sort: "popular",
+      cart: [],
+      favorites: [],
+      reviews: {},
+      panel: null,
+      megaOpen: false,
+      megaPinned: false,
+      searchOpen: false,
+      openGameId: null,
+      codeOpen: false,
+      codeText: "",
+      popoverGameId: null,
+      draftRating: 0,
+      lastFocus: null,
+      searchScrolled: false
+    };
+
+    const $ = (sel) => document.querySelector(sel);
+    const header = $("#header");
+    const headerInner = $("#headerInner");
+    const grid = $("#gameGrid");
+    const filtersEl = $("#filters");
+    const backdrop = $("#backdrop");
+    const drawers = { menu: $("#drawerMenu"), cart: $("#drawerCart"), fav: $("#drawerFav") };
+    const popover = $("#popover");
+    const gameDialog = $("#gameDialog");
+    const codeDialog = $("#codeDialog");
+    const toastEl = $("#toast");
+    let toastTimer = 0;
+    let megaTimer = 0;
+
+    /* ============================================
+       საცავი
+       ============================================ */
+    const storage = {
+      load() {
+        try {
+          const raw = localStorage.getItem(CONFIG.storageKey);
+          return raw ? JSON.parse(raw) : null;
+        } catch (err) {
+          return null;
+        }
+      },
+      save() {
+        try {
+          localStorage.setItem(CONFIG.storageKey, JSON.stringify({
+            cart: state.cart,
+            favorites: state.favorites,
+            reviews: state.reviews
+          }));
+        } catch (err) { /* ცვლადი state მაინც ინახავს სესიის მონაცემს */ }
+      },
+      infoClosed() {
+        try { return sessionStorage.getItem(CONFIG.storageKey + "-info") === "1"; }
+        catch (err) { return false; }
+      },
+      setInfoClosed() {
+        try { sessionStorage.setItem(CONFIG.storageKey + "-info", "1"); }
+        catch (err) { /* იგნორი */ }
+      }
+    };
+
+    /* ============================================
+       ტექსტი და რიცხვები
+       ============================================ */
+    function escapeHTML(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+    function formatPrice(n) {
+      return Number(n).toLocaleString("ka-GE") + " ₾";
+    }
+    function formatRating(n) {
+      return Number(n).toLocaleString("ka-GE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+    function formatDate(iso) {
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleDateString("ka-GE", { year: "numeric", month: "long", day: "numeric" });
+    }
+    function gameById(id) { return GAMES.find((g) => g.id === id); }
+    function catName(id) { return categoryMap[id] ? categoryMap[id].name : id; }
+    function catShort(id) { return categoryMap[id] ? categoryMap[id].short : id; }
+    function userReviews(id) { return state.reviews[id] || []; }
+    function ratingInfo(game) {
+      const extra = userReviews(game.id);
+      const extraSum = extra.reduce((sum, r) => sum + Number(r.rating), 0);
+      const count = game.reviewCount + extra.length;
+      const avg = count ? (game.rating * game.reviewCount + extraSum) / count : 0;
+      return { avg, count };
+    }
+    function minPaidPrice() {
+      const paid = GAMES.filter((g) => g.price > 0).map((g) => g.price);
+      return paid.length ? Math.min(...paid) : 5;
+    }
+
+    function icon(name) {
+      const paths = {
+        search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+        hex: '<path d="M12 3.2 18.5 7v8L12 18.8 5.5 15V7Z"/>',
+        home: '<path d="M4 11.2 12 4l8 7.2"/><path d="M7 10.5V20h10v-9.5"/>',
+        blocks: '<rect x="3.5" y="13" width="7" height="7" rx="1.6"/><rect x="13.5" y="4" width="7" height="7" rx="1.6"/><rect x="13.5" y="13" width="7" height="7" rx="1.6"/>',
+        people: '<circle cx="8" cy="9" r="2.2"/><circle cx="16" cy="9" r="2.2"/><path d="M4.2 18c.6-2.4 2.2-3.6 3.8-3.6S11.2 15.6 11.8 18M12.2 18c.6-2.4 2.2-3.6 3.8-3.6 1.6 0 3.2 1.2 3.8 3.6"/>',
+        card: '<rect x="7" y="3.5" width="10" height="15" rx="2"/><path d="M12 7.5l1.8 2.2L12 12l-1.8-2.3Z"/>',
+        nodes: '<circle cx="7" cy="8" r="2"/><circle cx="17" cy="8" r="2"/><circle cx="12" cy="16" r="2"/><path d="M9 9.2 11 14.2M15 9.2 13 14.2M9 8h6"/>',
+        coop: '<circle cx="9" cy="8" r="2.1"/><circle cx="15" cy="8" r="2.1"/><path d="M5 18c.7-2.6 2.4-4 4-4h6c1.6 0 3.3 1.4 4 4"/>',
+        moon: '<path d="M15 4.2a7.2 7.2 0 1 0 0 15.6 6 6 0 1 1 0-15.6Z"/>',
+        tile: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 16.2 12 7.8l4 8.4M9.2 13.2h5.6"/>',
+        chat: '<path d="M5 6.5h14v8.2H9.2L5 18Z"/><path d="M12 9.2a1.5 1.5 0 0 1 1.6 1.4c0 1.1-1.6 1.3-1.6 2.4"/><circle cx="12" cy="14.6" r="0.7" fill="currentColor" stroke="none"/>',
+        clock: '<circle cx="12" cy="13" r="7"/><path d="M12 10v4l2.4 1.5M9.5 4.5h5"/>',
+        users: '<circle cx="12" cy="8" r="3"/><path d="M5.5 19c.8-3.2 3.2-4.8 6.5-4.8s5.7 1.6 6.5 4.8"/>',
+        age: '<circle cx="12" cy="7" r="2.4"/><path d="M8 20v-4.5L10 13l2 2 2-2.6 2 2.6V20"/>',
+        heart: '<path d="M12 20.2S5.2 16 5.2 11a3.8 3.8 0 0 1 6.8-2.3A3.8 3.8 0 0 1 18.8 11c0 5-6.8 9.2-6.8 9.2z"/>',
+        close: '<path d="M6 6l12 12M18 6L6 18"/>'
+      };
+      return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${paths[name] || ""}</svg>`;
+    }
+
+    function starPath() {
+      return "M10 1.8 12.3 6.5l5.2.8-3.8 3.6.9 5.2L10 13.6 5.4 16.1l.9-5.2L2.5 7.3l5.2-.8Z";
+    }
+    function starsMarkup(value, prefix) {
+      let html = "";
+      for (let i = 1; i <= 5; i += 1) {
+        let fill = 0;
+        if (value >= i) fill = 1;
+        else if (value > i - 1) fill = value - (i - 1);
+        const d = starPath();
+        if (fill >= 0.98) html += `<svg viewBox="0 0 20 20" class="star" aria-hidden="true"><path fill="#C8962E" d="${d}"/></svg>`;
+        else if (fill <= 0.05) html += `<svg viewBox="0 0 20 20" class="star" aria-hidden="true"><path fill="#E7DCCB" d="${d}"/></svg>`;
+        else {
+          const id = `${prefix}-${i}`;
+          const pct = Math.round(fill * 100);
+          html += `<svg viewBox="0 0 20 20" class="star" aria-hidden="true"><defs><linearGradient id="${id}"><stop offset="${pct}%" stop-color="#C8962E"/><stop offset="${pct}%" stop-color="#E7DCCB"/></linearGradient></defs><path fill="url(#${id})" d="${d}"/></svg>`;
+        }
+      }
+      return `<span class="stars" role="img" aria-label="შეფასება ${formatRating(value)} 5-დან">${html}</span>`;
+    }
+
+    function hexPoints(cx, cy, r) {
+      const pts = [];
+      for (let i = 0; i < 6; i += 1) {
+        const a = Math.PI / 180 * (60 * i - 30);
+        pts.push(`${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`);
+      }
+      return pts.join(" ");
+    }
+
+    function motifSVG(game) {
+      const c = "#FBF6EC";
+      const d = "#F6D77A";
+      const ink = "#172B36";
+      switch (game.motif) {
+        case "cards":
+          return `<g transform="translate(200 112)">
+            <g transform="rotate(-18)"><rect x="-108" y="-70" width="86" height="124" rx="16" fill="${c}"/><rect x="-94" y="-54" width="58" height="84" rx="10" fill="none" stroke="${d}" stroke-width="4"/></g>
+            <g transform="rotate(4)"><rect x="-36" y="-78" width="86" height="124" rx="16" fill="#fff"/><path d="M7 -6 22 12 7 30 -8 12Z" fill="${ink}"/></g>
+            <g transform="rotate(20)"><rect x="28" y="-64" width="86" height="124" rx="16" fill="${d}" opacity="0.95"/></g>
+          </g>`;
+        case "hex":
+          return `<g>
+            <polygon points="${hexPoints(132, 108, 52)}" fill="${c}"/>
+            <polygon points="${hexPoints(214, 78, 46)}" fill="${d}"/>
+            <polygon points="${hexPoints(246, 142, 48)}" fill="${ink}" opacity="0.9"/>
+            <polygon points="${hexPoints(160, 156, 30)}" fill="#fff"/>
+          </g>`;
+        case "path":
+          return `<path d="M36 150C100 48 150 176 214 108s78-8 110-46 40 8 48 4" fill="none" stroke="${c}" stroke-width="18" stroke-linecap="round"/>
+            <circle cx="78" cy="132" r="18" fill="${d}"/><circle cx="214" cy="108" r="20" fill="#fff"/><circle cx="318" cy="74" r="16" fill="${ink}"/>`;
+        case "letters": {
+          const letters = game.letters || ["ა", "მ", "რ"];
+          return `<g font-family="Noto Sans Georgian, Segoe UI, sans-serif" font-weight="800">
+            <rect x="48" y="42" width="92" height="118" rx="18" fill="#fff"/><text x="94" y="118" text-anchor="middle" font-size="52" fill="${ink}">${escapeHTML(letters[0])}</text>
+            <rect x="154" y="42" width="92" height="118" rx="18" fill="${d}"/><text x="200" y="118" text-anchor="middle" font-size="52" fill="${ink}">${escapeHTML(letters[1])}</text>
+            <rect x="260" y="42" width="92" height="118" rx="18" fill="${c}"/><text x="306" y="118" text-anchor="middle" font-size="52" fill="${ink}">${escapeHTML(letters[2])}</text>
+          </g>`;
+        }
+        case "bubbles":
+          return `<rect x="36" y="36" width="168" height="72" rx="22" fill="#fff"/>
+            <circle cx="58" cy="72" r="6" fill="${d}"/><circle cx="80" cy="72" r="6" fill="${ink}" opacity="0.35"/><circle cx="102" cy="72" r="6" fill="${ink}" opacity="0.2"/>
+            <rect x="150" y="100" width="196" height="72" rx="22" fill="${c}"/>
+            <circle cx="196" cy="136" r="8" fill="${ink}"/><circle cx="224" cy="136" r="8" fill="${d}"/><circle cx="252" cy="136" r="8" fill="#fff"/>`;
+        case "rings":
+          return `<circle cx="168" cy="110" r="74" fill="none" stroke="${c}" stroke-width="16"/>
+            <circle cx="248" cy="96" r="46" fill="${d}"/>
+            <circle cx="214" cy="148" r="24" fill="#fff"/>
+            <circle cx="112" cy="78" r="14" fill="${ink}"/>`;
+        case "tower":
+          return `<rect x="78" y="132" width="244" height="52" rx="16" fill="${c}"/>
+            <rect x="118" y="84" width="164" height="48" rx="16" fill="#fff"/>
+            <rect x="150" y="40" width="100" height="44" rx="16" fill="${d}"/>`;
+        case "nodes":
+          return `<path d="M64 150 150 62 236 124 332 70" fill="none" stroke="${c}" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="64" cy="150" r="20" fill="#fff"/><circle cx="150" cy="62" r="24" fill="${d}"/><circle cx="236" cy="124" r="18" fill="${ink}"/><circle cx="332" cy="70" r="16" fill="${c}"/>`;
+        case "coins":
+          return `<circle cx="128" cy="112" r="62" fill="${c}"/><circle cx="214" cy="86" r="46" fill="${d}"/><circle cx="286" cy="132" r="40" fill="#fff"/><circle cx="188" cy="156" r="20" fill="${ink}"/>`;
+        default:
+          return `<circle cx="92" cy="70" r="22" fill="#fff"/><circle cx="168" cy="124" r="30" fill="${d}"/><circle cx="250" cy="78" r="16" fill="${c}"/><circle cx="312" cy="140" r="24" fill="${ink}" opacity="0.9"/>`;
+      }
+    }
+
+    function artMarkup(game, label) {
+      return `<div class="art" style="--a:${game.colors[0]};--b:${game.colors[1]}">
+        <svg viewBox="0 0 400 220" aria-hidden="true">${motifSVG(game)}</svg>
+      </div>`;
+    }
+
+    /* ============================================
+       ფილტრაცია
+       ============================================ */
+    function popularity(game) {
+      return (game.isPopular ? 1000 : 0) + game.reviewCount + game.rating * 20;
+    }
+    function filteredGames() {
+      const q = state.query.trim().toLowerCase();
+      const list = GAMES.filter((game) => {
+        if (state.type === "free" && game.price !== 0) return false;
+        if (state.type === "paid" && game.price === 0) return false;
+        if (state.category !== "all" && !game.categories.includes(state.category)) return false;
+        if (state.difficulty !== "all" && game.difficulty !== state.difficulty) return false;
+        if (state.players !== "all") {
+          const [a, b] = state.players.split("-").map(Number);
+          if (game.playersMax < a || game.playersMin > b) return false;
+        }
+        if (state.duration === "15" && game.duration > 15) return false;
+        if (state.duration === "30" && (game.duration < 16 || game.duration > 30)) return false;
+        if (state.duration === "60" && (game.duration < 31 || game.duration > 60)) return false;
+        if (state.duration === "61" && game.duration <= 60) return false;
+        if (state.age !== "all" && game.age > Number(state.age)) return false;
+        if (state.priceMin !== "" && game.price < Number(state.priceMin)) return false;
+        if (state.priceMax !== "" && game.price > Number(state.priceMax)) return false;
+        if (q) {
+          const names = game.categories.map((id) => `${catName(id)} ${catShort(id)}`).join(" ");
+          if (!`${game.name} ${names}`.toLowerCase().includes(q)) return false;
+        }
+        return true;
+      });
+      list.sort((a, b) => {
+        if (state.sort === "rating") return ratingInfo(b).avg - ratingInfo(a).avg || b.reviewCount - a.reviewCount;
+        if (state.sort === "price-asc") return a.price - b.price || a.name.localeCompare(b.name, "ka");
+        if (state.sort === "price-desc") return b.price - a.price || a.name.localeCompare(b.name, "ka");
+        if (state.sort === "new") return Number(b.isNew) - Number(a.isNew) || b.created.localeCompare(a.created);
+        if (state.sort === "alpha") return a.name.localeCompare(b.name, "ka");
+        return popularity(b) - popularity(a);
+      });
+      return list;
+    }
+    function activeFilterCount() {
+      let n = 0;
+      if (state.type !== "all") n += 1;
+      if (state.category !== "all") n += 1;
+      if (state.players !== "all") n += 1;
+      if (state.duration !== "all") n += 1;
+      if (state.age !== "all") n += 1;
+      if (state.difficulty !== "all") n += 1;
+      if (state.priceMin !== "" || state.priceMax !== "") n += 1;
+      return n;
+    }
+
+    /* ============================================
+       რენდერი
+       ============================================ */
+    function renderCatalog(animate) {
+      const games = filteredGames();
+      grid.classList.toggle("animate", Boolean(animate) && motionOK);
+      if (!games.length) {
+        grid.innerHTML = `<div class="empty">
+          <svg viewBox="0 0 92 72" aria-hidden="true"><rect x="8" y="16" width="46" height="48" rx="10" fill="#FCE9D2"/><rect x="28" y="8" width="46" height="48" rx="10" fill="#fff" stroke="#172B36" stroke-width="2"/><circle cx="51" cy="30" r="8" fill="none" stroke="#E8A45B" stroke-width="3"/></svg>
+          <h3>ვერაფერი მოიძებნა</h3>
+          <p>სცადეთ სხვა სიტყვა ან გაასუფთავეთ ფილტრი.</p>
+          <button type="button" class="btn btn-primary" data-action="clear-filters">ფილტრის გასუფთავება</button>
+        </div>`;
+      } else {
+        grid.innerHTML = games.map((game) => {
+          const info = ratingInfo(game);
+          const fav = state.favorites.includes(game.id);
+          const inCart = state.cart.some((item) => item.kind === "access" && item.gameId === game.id);
+          const flags = [
+            game.isNew ? '<span class="pill pill-new">ახალი</span>' : "",
+            game.isPopular ? '<span class="pill pill-hot">პოპულარული</span>' : ""
+          ].join("");
+          const action = game.price === 0
+            ? `<button type="button" class="btn btn-green" data-action="play" data-id="${game.id}">თამაში</button>`
+            : `<button type="button" class="btn btn-primary" data-action="add" data-id="${game.id}">${inCart ? "კალათაშია" : "კალათაში"}</button>`;
+          return `<article class="game-card">
+            <div class="game-top">
+              <div>
+                <h3><button type="button" class="card-title" data-action="open-game" data-id="${game.id}">${escapeHTML(game.name)}</button></h3>
+                <p class="cats">${game.categories.map((id) => escapeHTML(catShort(id))).join(" · ")}</p>
+                ${flags ? `<div class="flag-row">${flags}</div>` : ""}
+              </div>
+              <span class="pill ${game.price === 0 ? "pill-free" : "pill-price"}">${game.price === 0 ? "უფასო" : formatPrice(game.price)}</span>
+            </div>
+            <button type="button" class="art-btn" data-action="open-game" data-id="${game.id}" aria-label="${escapeHTML(game.name)}, დეტალურად">
+              ${artMarkup(game)}
+            </button>
+            <div class="meta-row">
+              <span class="meta-pill">${icon("users")}<span>${game.playersMin}–${game.playersMax}</span></span>
+              <span class="meta-pill">${icon("clock")}<span>${game.duration} წთ</span></span>
+              <span class="meta-pill">${icon("age")}<span>${game.age}+</span></span>
+            </div>
+            <div class="rating-row">
+              ${starsMarkup(info.avg, "c" + game.id)}
+              <span class="rating-num">${formatRating(info.avg)}</span>
+              <span class="rating-count">(${info.count.toLocaleString("ka-GE")})</span>
+            </div>
+            <div class="card-actions">
+              ${action}
+              <button type="button" class="icon-btn fav-btn ${fav ? "is-on" : ""}" data-action="fav" data-id="${game.id}" aria-pressed="${fav}" aria-label="${fav ? "რჩეულებიდან ამოშლა" : "რჩეულებში დამატება"}">${icon("heart")}</button>
+            </div>
+          </article>`;
+        }).join("");
+      }
+      const q = state.query.trim();
+      $("#resultCount").textContent = q
+        ? `„${q}“ — ნაპოვნია ${games.length.toLocaleString("ka-GE")} თამაში`
+        : `ნაპოვნია ${games.length.toLocaleString("ka-GE")} თამაში`;
+      const count = activeFilterCount();
+      const fc = $("#filterCount");
+      fc.dataset.count = String(count);
+      fc.textContent = String(count);
+      updateNav();
+    }
+
+    function renderCart() {
+      const body = $("#cartBody");
+      const foot = $("#cartFoot");
+      const count = state.cart.length;
+      $("#cartBadge").dataset.count = String(count);
+      $("#cartBadge").textContent = String(count);
+      $("#cartBtn").setAttribute("aria-label", `კალათა, ${count.toLocaleString("ka-GE")} ნივთი`);
+      if (!count) {
+        body.innerHTML = `<div class="panel-empty">
+          <svg viewBox="0 0 88 72" aria-hidden="true"><rect x="18" y="16" width="52" height="40" rx="12" fill="#FCE9D2"/><path d="M30 16v-2a14 14 0 0 1 28 0v2" fill="none" stroke="#172B36" stroke-width="2"/></svg>
+          <h3>კალათა ცარიელია</h3>
+          <p>ფასიან თამაშს 24 საათით ამატებთ, ან იღებთ თვიურ პაკეტს.</p>
+          <button type="button" class="btn btn-primary" data-action="jump" data-jump="paid">ფასიანი თამაშები</button>
+        </div>`;
+        foot.hidden = true;
+        foot.innerHTML = "";
+        return;
+      }
+      const hasPackage = state.cart.some((item) => item.kind === "package");
+      body.innerHTML = state.cart.map((item) => {
+        const game = item.gameId ? gameById(item.gameId) : null;
+        const a = game ? game.colors[0] : "#E8A45B";
+        const b = game ? game.colors[1] : "#F6D77A";
+        return `<article class="line-item">
+          <div class="swatch" style="--a:${a};--b:${b}"></div>
+          <div><strong>${escapeHTML(item.title)}</strong><span>${escapeHTML(item.note)}</span></div>
+          <div class="line-side"><span>${formatPrice(item.price)}</span>
+            <button type="button" class="icon-btn" data-action="remove-cart" data-id="${escapeHTML(item.id)}" aria-label="${escapeHTML(item.title)} წაშლა">${icon("close")}</button>
+          </div>
+        </article>`;
+      }).join("");
+      const total = state.cart.reduce((sum, item) => sum + item.price, 0);
+      foot.hidden = false;
+      foot.innerHTML = `${hasPackage ? '<p class="drawer-note">თვიური პაკეტი ყველა ფასიან თამაშს ერთი თვით ფარავს.</p>' : ""}
+        <p class="drawer-note">მეგობრებს კოდით შესაერთებლად გადახდა არ სჭირდებათ.</p>
+        <div class="total"><span>ჯამი</span><span>${formatPrice(total)}</span></div>
+        <button type="button" class="btn btn-primary btn-block" data-action="checkout">გადახდა</button>`;
+      syncPackageButton();
+    }
+
+    function renderFavorites() {
+      const body = $("#favBody");
+      const count = state.favorites.length;
+      $("#favBadge").dataset.count = String(count);
+      $("#favBadge").textContent = String(count);
+      document.querySelector('[data-panel="fav"]').setAttribute("aria-label", `რჩეულები, ${count.toLocaleString("ka-GE")}`);
+      if (!count) {
+        body.innerHTML = `<div class="panel-empty">
+          <svg viewBox="0 0 88 72" aria-hidden="true"><path d="M44 60S20 46 20 32a12 12 0 0 1 22-6 12 12 0 0 1 22 6c0 14-20 28-20 28z" fill="#FCE9D2" stroke="#172B36" stroke-width="2"/></svg>
+          <h3>ჯერ არაფერი შეგირჩევიათ</h3>
+          <p>გული თამაშს აქ ინახავს, რომ მოგვიანებით იოლად იპოვოთ.</p>
+        </div>`;
+        return;
+      }
+      body.innerHTML = state.favorites.map((id) => {
+        const game = gameById(id);
+        if (!game) return "";
+        return `<article class="fav-item">
+          <div class="swatch" style="--a:${game.colors[0]};--b:${game.colors[1]}"></div>
+          <button type="button" class="card-title" data-action="open-game" data-id="${game.id}">
+            <strong>${escapeHTML(game.name)}</strong><span>${game.price === 0 ? "უფასო" : formatPrice(game.price)}</span>
+          </button>
+          <button type="button" class="icon-btn fav-btn is-on" data-action="fav" data-id="${game.id}" aria-label="რჩეულებიდან ამოშლა">${icon("heart")}</button>
+        </article>`;
+      }).join("");
+    }
+
+    function renderGameDialog(id) {
+      const game = gameById(id);
+      if (!game) return;
+      state.openGameId = id;
+      state.draftRating = 0;
+      const info = ratingInfo(game);
+      const fav = state.favorites.includes(game.id);
+      const reviews = userReviews(game.id).concat(game.reviews);
+      const actions = game.price === 0
+        ? `<button type="button" class="btn btn-green" data-action="play" data-id="${game.id}">თამაში</button>`
+        : `<div class="choice-stack">
+            <button type="button" class="btn btn-primary" data-action="choice-access" data-id="${game.id}">24 საათიანი კოდი · ${formatPrice(game.price)}</button>
+            <button type="button" class="btn btn-secondary" data-action="choice-package">თვიური პაკეტი · ${formatPrice(CONFIG.monthlyPrice)}</button>
+          </div>`;
+      $("#gameDialogBody").innerHTML = `
+        <div class="modal-art art" style="--a:${game.colors[0]};--b:${game.colors[1]}">${motifSVG(game) ? `<svg viewBox="0 0 400 220" aria-hidden="true">${motifSVG(game)}</svg>` : ""}</div>
+        <div class="modal-body">
+          <div class="modal-title-row">
+            <h2 id="gameDialogTitle">${escapeHTML(game.name)}</h2>
+            <span class="pill ${game.price === 0 ? "pill-free" : "pill-price"}">${game.price === 0 ? "უფასო" : formatPrice(game.price)}</span>
+          </div>
+          <div class="tag-row">${game.categories.map((cid) => `<span class="tag">${escapeHTML(catName(cid))}</span>`).join("")}</div>
+          <p class="desc">${escapeHTML(game.description)}</p>
+          <div class="meta-row">
+            <span class="meta-pill">${icon("users")}<span>${game.playersMin}–${game.playersMax} მოთამაშე</span></span>
+            <span class="meta-pill">${icon("clock")}<span>${game.duration} წუთი</span></span>
+            <span class="meta-pill">${icon("age")}<span>ასაკი ${game.age}+</span></span>
+            <span class="meta-pill">${escapeHTML(game.difficulty)}</span>
+          </div>
+          <div class="rating-row" style="margin-top:12px">
+            ${starsMarkup(info.avg, "m" + game.id)}
+            <span class="rating-num">${formatRating(info.avg)}</span>
+            <span class="rating-count">${info.count.toLocaleString("ka-GE")} შეფასება</span>
+          </div>
+          <div class="modal-actions">
+            ${actions}
+            <button type="button" class="icon-btn fav-btn ${fav ? "is-on" : ""}" data-action="fav" data-id="${game.id}" aria-pressed="${fav}" aria-label="${fav ? "რჩეულებიდან ამოშლა" : "რჩეულებში დამატება"}">${icon("heart")}</button>
+          </div>
+          <section class="reviews">
+            <h3>მიმოხილვები</h3>
+            ${reviews.map((r, index) => `<article class="review">
+              <div class="review-top"><strong>${escapeHTML(r.name)}</strong><span class="rating-count">${formatDate(r.date)}</span></div>
+              ${starsMarkup(r.rating, "rv" + index)}
+              <p>${escapeHTML(r.text)}</p>
+            </article>`).join("")}
+            <form class="review-form" id="reviewForm" novalidate>
+              <h3>დაწერეთ შეფასება</h3>
+              <div class="rate-input" role="radiogroup" aria-label="შეფასება ვარსკვლავებით">
+                ${[1, 2, 3, 4, 5].map((n) => `<button type="button" role="radio" data-star="${n}" aria-checked="false" aria-label="${n} ვარსკვლავი"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="${starPath()}"/></svg></button>`).join("")}
+              </div>
+              <label class="field"><span>სახელი</span><input id="reviewName" name="name" maxlength="40" autocomplete="name" required></label>
+              <label class="field"><span>მიმოხილვა</span><textarea id="reviewText" name="text" maxlength="400" required></textarea></label>
+              <p class="form-error" id="reviewError" hidden></p>
+              <button type="submit" class="btn btn-primary">მიმოხილვის დამატება</button>
+            </form>
+          </section>
+        </div>`;
+      gameDialog.hidden = false;
+      document.body.classList.add("lock");
+      const closeBtn = gameDialog.querySelector(".modal-close");
+      closeBtn.focus();
+    }
+
+    function syncControlsFromState() {
+      document.querySelectorAll("[data-action='type']").forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn.dataset.type === state.type));
+      });
+      $("#fCategory").value = state.category;
+      $("#fPlayers").value = state.players;
+      $("#fDuration").value = state.duration;
+      $("#fAge").value = state.age;
+      $("#fDifficulty").value = state.difficulty;
+      $("#fPriceMin").value = state.priceMin;
+      $("#fPriceMax").value = state.priceMax;
+      $("#fSort").value = state.sort;
+      $("#searchInput").value = state.query;
+      $("#searchForm .search-clear").hidden = state.query === "";
+    }
+    function readControls() {
+      state.category = $("#fCategory").value;
+      state.players = $("#fPlayers").value;
+      state.duration = $("#fDuration").value;
+      state.age = $("#fAge").value;
+      state.difficulty = $("#fDifficulty").value;
+      state.priceMin = $("#fPriceMin").value;
+      state.priceMax = $("#fPriceMax").value;
+      state.sort = $("#fSort").value;
+    }
+    function syncPackageButton() {
+      const inCart = state.cart.some((item) => item.kind === "package");
+      $("#packageBtn").textContent = inCart ? "პაკეტი კალათაშია" : "პაკეტის დამატება კალათაში";
+    }
+    function updateNav() {
+      const catalogTop = $("#catalog").getBoundingClientRect().top;
+      let current = "home";
+      if (catalogTop < 160) {
+        if (state.category !== "all") current = "categories";
+        else if (state.type === "free") current = "free";
+        else if (state.type === "paid") current = "paid";
+        else current = "all";
+      }
+      document.querySelectorAll("[data-nav]").forEach((link) => {
+        const on = link.dataset.nav === current;
+        link.classList.toggle("is-active", on);
+        if (on) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      });
+      $("#catBtn").classList.toggle("is-active", current === "categories");
+    }
+
+    /* ============================================
+       კალათა, რჩეულები, მიმოხილვები
+       ============================================ */
+    function bump(el) {
+      if (!el) return;
+      el.classList.remove("is-pop");
+      void el.offsetWidth;
+      el.classList.add("is-pop");
+    }
+    function toast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("is-on");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("is-on"), 2800);
+    }
+    function addAccess(gameId) {
+      const game = gameById(gameId);
+      if (!game || game.price === 0) return;
+      const id = "access:" + gameId;
+      if (state.cart.some((item) => item.id === id)) {
+        toast("ეს თამაში უკვე კალათაშია");
+        closePopover();
+        return;
+      }
+      state.cart.push({ id, kind: "access", gameId, title: game.name, price: game.price, note: "24 საათიანი კოდი" });
+      storage.save();
+      renderCart();
+      bump($("#cartBadge"));
+      toast("24 საათიანი კოდი დაემატა კალათაში");
+      closePopover();
+      renderCatalog(false);
+    }
+    function addPackage() {
+      if (state.cart.some((item) => item.kind === "package")) {
+        toast("თვიური პაკეტი უკვე კალათაშია");
+        closePopover();
+        return;
+      }
+      state.cart.push({
+        id: "package:month",
+        kind: "package",
+        title: "თვიური პაკეტი",
+        price: CONFIG.monthlyPrice,
+        note: "ყველა ფასიანი თამაში · 1 თვე"
+      });
+      storage.save();
+      renderCart();
+      bump($("#cartBadge"));
+      toast("თვიური პაკეტი დაემატა კალათაში");
+      closePopover();
+    }
+    function removeCart(id) {
+      state.cart = state.cart.filter((item) => item.id !== id);
+      storage.save();
+      renderCart();
+      renderCatalog(false);
+    }
+    function toggleFav(id, source) {
+      const has = state.favorites.includes(id);
+      state.favorites = has ? state.favorites.filter((x) => x !== id) : state.favorites.concat(id);
+      storage.save();
+      renderFavorites();
+      bump($("#favBadge"));
+      document.querySelectorAll(`[data-action="fav"][data-id="${id}"]`).forEach((btn) => {
+        const on = state.favorites.includes(id);
+        btn.classList.toggle("is-on", on);
+        btn.setAttribute("aria-pressed", String(on));
+        btn.setAttribute("aria-label", on ? "რჩეულებიდან ამოშლა" : "რჩეულებში დამატება");
+        if (source && btn === source) {
+          btn.classList.remove("is-pop");
+          void btn.offsetWidth;
+          btn.classList.add("is-pop");
+        }
+      });
+    }
+    function submitReview(form) {
+      const game = gameById(state.openGameId);
+      const name = form.name.value.trim();
+      const text = form.text.value.trim();
+      const error = $("#reviewError");
+      if (!state.draftRating) { error.hidden = false; error.textContent = "აირჩიეთ ვარსკვლავები."; return; }
+      if (!name) { error.hidden = false; error.textContent = "დაწერეთ სახელი."; return; }
+      if (!text) { error.hidden = false; error.textContent = "დაწერეთ მიმოხილვა."; return; }
+      const list = userReviews(game.id).slice();
+      list.unshift({ name: name.slice(0, 40), text: text.slice(0, 400), rating: state.draftRating, date: new Date().toISOString() });
+      state.reviews[game.id] = list;
+      storage.save();
+      toast("მადლობა, მიმოხილვა შენახულია");
+      renderCatalog(false);
+      renderGameDialog(game.id);
+    }
+
+    /* ============================================
+       პანელები და დიალოგები
+       ============================================ */
+    function mobileLayout() { return window.matchMedia("(max-width: 860px)").matches; }
+    function lockPage(on) { document.body.classList.toggle("lock", on); }
+    function closePopover() {
+      popover.hidden = true;
+      state.popoverGameId = null;
+    }
+    function openPopover(button, gameId) {
+      const game = gameById(gameId);
+      if (!game) return;
+      closePanel();
+      closeMega();
+      state.popoverGameId = gameId;
+      $("#popoverPrice").textContent = formatPrice(game.price);
+      popover.hidden = false;
+      const rect = button.getBoundingClientRect();
+      const width = popover.offsetWidth;
+      const height = popover.offsetHeight;
+      let left = Math.min(rect.left, window.innerWidth - width - 12);
+      left = Math.max(12, left);
+      let top = rect.bottom + 8;
+      if (top + height > window.innerHeight - 12) top = Math.max(12, rect.top - height - 8);
+      popover.style.left = left + "px";
+      popover.style.top = top + "px";
+      popover.querySelector("button").focus();
+    }
+    function closeMega() {
+      state.megaOpen = false;
+      state.megaPinned = false;
+      header.classList.remove("mega-open");
+      $("#catBtn").setAttribute("aria-expanded", "false");
+    }
+    function openMega(pinned) {
+      if (window.matchMedia("(max-width: 1180px)").matches) return;
+      state.megaOpen = true;
+      state.megaPinned = pinned || state.megaPinned;
+      header.classList.add("mega-open");
+      header.classList.remove("is-hidden");
+      $("#catBtn").setAttribute("aria-expanded", "true");
+      setSearch(false);
+    }
+    function setSearch(open) {
+      state.searchOpen = open;
+      headerInner.classList.toggle("is-search-open", open);
+      $("#searchForm").inert = !open;
+      $("#searchToggle").setAttribute("aria-expanded", String(open));
+      if (open) {
+        closeMega();
+        $("#searchInput").focus();
+      }
+    }
+    function closePanel() {
+      state.panel = null;
+      Object.values(drawers).forEach((el) => {
+        el.classList.remove("is-open");
+        el.setAttribute("aria-hidden", "true");
+        el.inert = true;
+      });
+      filtersEl.classList.remove("is-open");
+      if (mobileLayout()) filtersEl.inert = true;
+      else filtersEl.inert = false;
+      filtersEl.removeAttribute("role");
+      backdrop.hidden = !state.openGameId && !state.codeOpen;
+      if (!state.openGameId && !state.codeOpen) lockPage(false);
+      if (state.lastFocus && document.contains(state.lastFocus)) state.lastFocus.focus();
+    }
+    function openPanel(name) {
+      if (state.panel === name) { closePanel(); return; }
+      closePopover();
+      closeMega();
+      setSearch(false);
+      closeGame();
+      closeCode();
+      state.lastFocus = document.activeElement;
+      state.panel = name;
+      Object.entries(drawers).forEach(([key, el]) => {
+        const on = key === name;
+        el.classList.toggle("is-open", on);
+        el.setAttribute("aria-hidden", String(!on));
+        el.inert = !on;
+      });
+      const filtersOn = name === "filters" && mobileLayout();
+      filtersEl.classList.toggle("is-open", filtersOn);
+      filtersEl.inert = mobileLayout() ? !filtersOn : false;
+      if (filtersOn) {
+        filtersEl.setAttribute("role", "dialog");
+        filtersEl.setAttribute("aria-modal", "true");
+      }
+      backdrop.hidden = false;
+      lockPage(true);
+      if (name === "cart") renderCart();
+      if (name === "fav") renderFavorites();
+      const focusRoot = name === "filters" ? filtersEl : drawers[name];
+      const closeBtn = focusRoot.querySelector(".icon-btn, button");
+      if (closeBtn) closeBtn.focus();
+    }
+    function closeGame() {
+      if (gameDialog.hidden) return;
+      gameDialog.hidden = true;
+      state.openGameId = null;
+      if (!state.panel && !state.codeOpen) { backdrop.hidden = true; lockPage(false); }
+      if (state.lastFocus && document.contains(state.lastFocus)) state.lastFocus.focus();
+    }
+    function closeCode() {
+      if (codeDialog.hidden) return;
+      codeDialog.hidden = true;
+      state.codeOpen = false;
+      if (!state.panel && gameDialog.hidden) { lockPage(false); }
+    }
+    function openCode(game) {
+      let raw = "";
+      for (let i = 0; i < 6; i += 1) raw += Math.floor(Math.random() * 10);
+      state.codeText = raw.slice(0, 3) + " " + raw.slice(3);
+      state.codeOpen = true;
+      $("#codeLead").textContent = game.name + " — ეს კოდი მეგობრებისთვისაა.";
+      $("#codeValue").textContent = state.codeText;
+      codeDialog.hidden = false;
+      lockPage(true);
+      codeDialog.querySelector("[data-action='copy-code']").focus();
+    }
+    function scrollToCatalog() {
+      const top = $("#catalog").getBoundingClientRect().top + window.scrollY - 84;
+      window.scrollTo({ top, behavior: motionOK ? "smooth" : "auto" });
+    }
+    function applyJump(kind) {
+      if (kind === "free" || kind === "paid" || kind === "all") {
+        state.type = kind === "all" ? "all" : kind;
+        state.category = "all";
+        if (kind === "all") state.sort = "popular";
+      }
+      if (kind === "new") { state.sort = "new"; state.type = "all"; state.category = "all"; }
+      if (kind === "popular") { state.sort = "popular"; state.type = "all"; state.category = "all"; }
+      syncControlsFromState();
+      renderCatalog(true);
+      closePanel();
+      closeMega();
+      scrollToCatalog();
+    }
+    function applyCategory(id) {
+      state.category = id;
+      state.type = "all";
+      syncControlsFromState();
+      renderCatalog(true);
+      closePanel();
+      closeMega();
+      scrollToCatalog();
+    }
+    function clearFilters() {
+      state.query = "";
+      state.type = "all";
+      state.category = "all";
+      state.players = "all";
+      state.duration = "all";
+      state.age = "all";
+      state.difficulty = "all";
+      state.priceMin = "";
+      state.priceMax = "";
+      state.sort = "popular";
+      state.searchScrolled = false;
+      syncControlsFromState();
+      renderCatalog(true);
+    }
+    function paintStars(n) {
+      gameDialog.querySelectorAll("[data-star]").forEach((btn) => {
+        const on = Number(btn.dataset.star) <= n;
+        btn.classList.toggle("is-on", on);
+        btn.setAttribute("aria-checked", String(Number(btn.dataset.star) === n));
+      });
+    }
+    function trapFocus(container, event) {
+      if (event.key !== "Tab" || !container) return;
+      const nodes = [...container.querySelectorAll("a, button, input, select, textarea")].filter((el) => !el.disabled && el.tabIndex !== -1 && el.getClientRects().length);
+      if (!nodes.length) return;
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+    function animateCounts() {
+      document.querySelectorAll("[data-count]").forEach((el) => {
+        const target = Number(el.dataset.count);
+        if (!motionOK) { el.textContent = target.toLocaleString("ka-GE"); return; }
+        const start = performance.now();
+        const tick = (now) => {
+          const t = Math.min(1, (now - start) / 900);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(target * eased).toLocaleString("ka-GE");
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }
+
+    function handleAction(event, el) {
+      const action = el.dataset.action;
+      if (el.tagName === "A") event.preventDefault();
+      if (action === "close-info") {
+        $("#infoBar").hidden = true;
+        storage.setInfoClosed();
+      } else if (action === "soon") {
+        toast(el.dataset.soon || "მალე დაემატება");
+      } else if (action === "toggle-search") {
+        setSearch(!state.searchOpen);
+      } else if (action === "clear-search") {
+        state.query = "";
+        state.searchScrolled = false;
+        syncControlsFromState();
+        renderCatalog(true);
+        $("#searchInput").focus();
+      } else if (action === "toggle-mega") {
+        if (state.megaOpen && state.megaPinned) closeMega();
+        else openMega(true);
+      } else if (action === "home") {
+        closePanel();
+        closeMega();
+        window.scrollTo({ top: 0, behavior: motionOK ? "smooth" : "auto" });
+      } else if (action === "jump") {
+        applyJump(el.dataset.jump);
+      } else if (action === "category") {
+        applyCategory(el.dataset.id);
+      } else if (action === "type") {
+        state.type = el.dataset.type;
+        syncControlsFromState();
+        renderCatalog(true);
+      } else if (action === "open-panel") {
+        if (el.dataset.panel === "filters" && !mobileLayout()) return;
+        openPanel(el.dataset.panel);
+      } else if (action === "close-panel") {
+        closePanel();
+      } else if (action === "toggle-acc") {
+        const panel = $("#mobileCats");
+        const open = !panel.classList.contains("is-open");
+        panel.classList.toggle("is-open", open);
+        el.setAttribute("aria-expanded", String(open));
+      } else if (action === "fav") {
+        event.stopPropagation();
+        toggleFav(el.dataset.id, el);
+      } else if (action === "add") {
+        openPopover(el, el.dataset.id);
+      } else if (action === "choice-access") {
+        addAccess(state.popoverGameId || el.dataset.id || state.openGameId);
+      } else if (action === "choice-package" || action === "add-package") {
+        addPackage();
+      } else if (action === "remove-cart") {
+        removeCart(el.dataset.id);
+      } else if (action === "checkout") {
+        toast("ეს დემოა — გადახდა მალე დაემატება");
+      } else if (action === "play") {
+        const game = gameById(el.dataset.id);
+        if (game) openCode(game);
+      } else if (action === "open-game") {
+        state.lastFocus = document.activeElement;
+        closePopover();
+        closePanel();
+        renderGameDialog(el.dataset.id);
+      } else if (action === "close-game") {
+        closeGame();
+      } else if (action === "close-code") {
+        closeCode();
+      } else if (action === "copy-code") {
+        const done = () => toast("კოდი დაკოპირდა");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(state.codeText.replace(/\s/g, "")).then(done).catch(() => toast("კოდი: " + state.codeText));
+        } else toast("კოდი: " + state.codeText);
+      } else if (action === "clear-filters") {
+        clearFilters();
+      }
+    }
+
+    /* ============================================
+       ინიციალიზაცია
+       ============================================ */
+    function fillCategories() {
+      const select = $("#fCategory");
+      select.innerHTML = `<option value="all">ყველა</option>` + CATEGORIES.map((c) => `<option value="${c.id}">${escapeHTML(c.name)}</option>`).join("");
+      $("#megaGrid").innerHTML = CATEGORIES.map((c) => `<button type="button" class="mega-item" data-action="category" data-id="${c.id}">
+        <span class="mega-icon">${icon(c.icon)}</span>
+        <span><strong>${escapeHTML(c.name)}</strong><small>${escapeHTML(c.desc)}</small></span>
+      </button>`).join("");
+      $("#mobileCatsInner").innerHTML = CATEGORIES.map((c) => `<button type="button" class="acc-link" data-action="category" data-id="${c.id}">${escapeHTML(c.name)}</button>`).join("");
+    }
+    function applySaved() {
+      const saved = storage.load();
+      if (!saved) return;
+      const ids = new Set(GAMES.map((g) => g.id));
+      state.favorites = Array.isArray(saved.favorites) ? saved.favorites.filter((id) => ids.has(id)) : [];
+      state.reviews = saved.reviews && typeof saved.reviews === "object" ? saved.reviews : {};
+      state.cart = Array.isArray(saved.cart) ? saved.cart.filter((item) => item.kind === "package" || ids.has(item.gameId)) : [];
+    }
+    function bind() {
+      document.addEventListener("click", (event) => {
+        const el = event.target.closest("[data-action]");
+        if (el) handleAction(event, el);
+        if (state.popoverGameId && !event.target.closest("#popover") && !event.target.closest("[data-action='add']")) closePopover();
+        if (state.megaOpen && !event.target.closest("#mega") && !event.target.closest("#catBtn")) closeMega();
+      });
+      $("#searchForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (state.query) scrollToCatalog();
+      });
+      $("#searchInput").addEventListener("input", () => {
+        const next = $("#searchInput").value;
+        const started = state.query === "" && next.trim() !== "";
+        state.query = next;
+        $("#searchForm .search-clear").hidden = next === "";
+        renderCatalog(false);
+        if (started && !state.searchScrolled) {
+          state.searchScrolled = true;
+          scrollToCatalog();
+        }
+        if (!next.trim()) state.searchScrolled = false;
+      });
+      filtersEl.addEventListener("change", () => { readControls(); renderCatalog(true); });
+      filtersEl.addEventListener("input", (event) => {
+        if (event.target.matches("input")) { readControls(); renderCatalog(true); }
+      });
+      $("#fSort").addEventListener("change", () => { readControls(); renderCatalog(true); });
+      backdrop.addEventListener("click", () => {
+        if (state.codeOpen) closeCode();
+        else if (state.openGameId) closeGame();
+        else closePanel();
+      });
+      gameDialog.addEventListener("click", (event) => { if (event.target === gameDialog) closeGame(); });
+      codeDialog.addEventListener("click", (event) => { if (event.target === codeDialog) closeCode(); });
+      gameDialog.addEventListener("submit", (event) => {
+        if (event.target.id === "reviewForm") { event.preventDefault(); submitReview(event.target); }
+      });
+      gameDialog.addEventListener("click", (event) => {
+        const star = event.target.closest("[data-star]");
+        if (!star) return;
+        state.draftRating = Number(star.dataset.star);
+        paintStars(state.draftRating);
+      });
+      gameDialog.addEventListener("mouseover", (event) => {
+        const star = event.target.closest("[data-star]");
+        if (star) paintStars(Number(star.dataset.star));
+      });
+      gameDialog.addEventListener("mouseout", (event) => {
+        if (event.target.closest("[data-star]") && !event.relatedTarget?.closest(".rate-input")) paintStars(state.draftRating);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          if (state.codeOpen) closeCode();
+          else if (state.openGameId) closeGame();
+          else if (state.popoverGameId) closePopover();
+          else if (state.panel) closePanel();
+          else if (state.megaOpen) closeMega();
+          else if (state.searchOpen) setSearch(false);
+        }
+        const star = event.target.closest ? event.target.closest("[data-star]") : null;
+        if (star && (event.key === "ArrowRight" || event.key === "ArrowLeft")) {
+          event.preventDefault();
+          const delta = event.key === "ArrowRight" ? 1 : -1;
+          const n = Math.min(5, Math.max(1, Number(star.dataset.star) + delta));
+          state.draftRating = n;
+          paintStars(n);
+          gameDialog.querySelector(`[data-star="${n}"]`).focus();
+        }
+        if (state.codeOpen) trapFocus(codeDialog, event);
+        else if (state.openGameId) trapFocus(gameDialog, event);
+        else if (state.panel === "filters") trapFocus(filtersEl, event);
+        else if (state.panel && drawers[state.panel]) trapFocus(drawers[state.panel], event);
+      });
+      const catBtn = $("#catBtn");
+      const mega = $("#mega");
+      const hoverOK = () => window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1181px)").matches;
+      catBtn.addEventListener("mouseenter", () => { if (hoverOK()) openMega(false); });
+      catBtn.addEventListener("mouseleave", () => {
+        clearTimeout(megaTimer);
+        megaTimer = setTimeout(() => { if (!state.megaPinned) closeMega(); }, 140);
+      });
+      mega.addEventListener("mouseenter", () => clearTimeout(megaTimer));
+      mega.addEventListener("mouseleave", () => {
+        clearTimeout(megaTimer);
+        megaTimer = setTimeout(() => { if (!state.megaPinned) closeMega(); }, 140);
+      });
+      let lastY = window.scrollY;
+      let ticking = false;
+      window.addEventListener("scroll", () => {
+        if (state.popoverGameId) closePopover();
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          header.classList.toggle("is-scrolled", y > 8);
+          const down = y > lastY + 8;
+          const up = y < lastY - 8;
+          if (!state.megaOpen && !state.searchOpen && !state.panel) {
+            if (down && y > 140) header.classList.add("is-hidden");
+            if (up || y < 80) header.classList.remove("is-hidden");
+          } else header.classList.remove("is-hidden");
+          lastY = y;
+          ticking = false;
+          updateNav();
+        });
+      }, { passive: true });
+      window.addEventListener("resize", () => {
+        closePopover();
+        if (!mobileLayout() && state.panel === "filters") closePanel();
+        if (window.matchMedia("(max-width: 1180px)").matches) closeMega();
+        filtersEl.inert = mobileLayout() && state.panel !== "filters";
+      });
+    }
+    function boot() {
+      document.title = SITE_NAME + " — " + CONFIG.slogan;
+      document.querySelectorAll("[data-site-name]").forEach((el) => { el.textContent = SITE_NAME; });
+      document.querySelectorAll("[data-monthly]").forEach((el) => { el.textContent = CONFIG.monthlyPrice.toLocaleString("ka-GE"); });
+      document.querySelectorAll("[data-monthly-label]").forEach((el) => { el.textContent = formatPrice(CONFIG.monthlyPrice); });
+      $("#infoText").textContent = `ერთჯერადი წვდომა ${formatPrice(minPaidPrice())}-დან · კოდი მოქმედებს 24 საათს · მეგობრები უფასოდ ერთვებიან`;
+      $("#year").textContent = String(new Date().getFullYear());
+      if (storage.infoClosed()) $("#infoBar").hidden = true;
+      const minPlayers = Math.min(...GAMES.map((g) => g.playersMin));
+      const maxPlayers = Math.max(...GAMES.map((g) => g.playersMax));
+      const stats = document.querySelectorAll(".hero-stats [data-count]");
+      stats[0].dataset.count = String(GAMES.length);
+      stats[1].dataset.count = String(minPlayers);
+      stats[2].dataset.count = String(maxPlayers);
+      applySaved();
+      fillCategories();
+      filtersEl.inert = mobileLayout();
+      bind();
+      renderCatalog(true);
+      renderCart();
+      renderFavorites();
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.16 });
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+      const statsIo = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          animateCounts();
+          statsIo.disconnect();
+        }
+      }, { threshold: 0.4 });
+      const statsEl = document.querySelector(".hero-stats");
+      if (statsEl) statsIo.observe(statsEl);
+    }
+    boot();
+  </script>
+</body>
+</html>
